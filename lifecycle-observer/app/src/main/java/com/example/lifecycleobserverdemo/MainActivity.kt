@@ -12,6 +12,8 @@ class MainActivity : AppCompatActivity() {
          * We can add multiple observers here
          */
         lifecycle.addObserver(Observer())
+        lifecycle.addObserver(MainActivityDefaultLifeCycleObserver())
+        lifecycle.addObserver(MainActivityLifecycleEventObserver())
         Log.d(TAG, "MainActivity-onCreate")
     }
 

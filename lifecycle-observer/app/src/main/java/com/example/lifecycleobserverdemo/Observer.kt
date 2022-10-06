@@ -5,7 +5,7 @@ import androidx.lifecycle.Lifecycle.Event
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 
-//No additional library  need.
+//No additional library  needed.
 class Observer: LifecycleObserver {
 
     @OnLifecycleEvent(Event.ON_CREATE)
