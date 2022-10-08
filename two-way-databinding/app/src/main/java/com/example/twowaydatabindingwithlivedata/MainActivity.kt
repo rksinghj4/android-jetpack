@@ -1,7 +1,7 @@
 package com.example.twowaydatabindingwithlivedata
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.twowaydatabindingwithlivedata.databinding.ActivityMainBinding
@@ -12,6 +12,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        /**
+         * You can use the inflate method on the generated class.
+         * This is useful for using data binding in fragments, ListView or RecyclerView.
+         */
+
+       /* var binding: ActivityMainBinding? =
+            ActivityMainBinding.inflate(layoutInflater, container, attachToContainer)
+        // get the root view
+        val view: View = binding!!.root*/
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -28,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         /**
          * Hover and read lifecycleOwner
-         * If we don't set lifecycleOwner  here, binding in xml will not observe changes to livedata
+         * If we don't set lifecycleOwner here, binding in xml will not observe changes to livedata
          *
          * Note: When using Data Binding with Fragments, make sure to use Fragment.getViewLifecycleOwner().
          * Using the Fragment as the LifecycleOwner might cause memory leaks since the Fragment's
