@@ -43,8 +43,12 @@ class MainActivity : AppCompatActivity() {
          * Using the Fragment as the LifecycleOwner might cause memory leaks since the Fragment's
          * Lifecycle outlives the view Lifecycle.
          */
+
         binding.lifecycleOwner = this
         binding.mainViewModel = mainViewModel
+
+        //We can have separate user variable in layout then
+        //binding.user = mainViewModel.user
 
         /**
          * We will set onClick, using data binding

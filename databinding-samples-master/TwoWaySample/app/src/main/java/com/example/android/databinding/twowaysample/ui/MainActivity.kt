@@ -25,6 +25,7 @@ import androidx.databinding.ObservableInt
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import androidx.lifecycle.ViewModelProvider
 import com.example.android.databinding.twowaysample.BR
 import com.example.android.databinding.twowaysample.R
 import com.example.android.databinding.twowaysample.data.IntervalTimerViewModel

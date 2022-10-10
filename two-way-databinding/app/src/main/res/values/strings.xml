@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TwoWayDataBindingWithLiveData</string>
+    <string name="two_way_data_binding_with_livedata">Two way data binding with Livedata</string>
+    <string name="two_way_data_binding_with_baseobservable">Two way data binding with BaseObservable</string>
 </resources>
