@@ -29,8 +29,9 @@ abstract class ContactDatabase : RoomDatabase() {
              *
              */
 
-            synchronized(this) {
-                if (INSTANCE == null) {
+
+            if (INSTANCE == null) {
+                synchronized(this) {
                     INSTANCE = Room.databaseBuilder(
                         context.applicationContext, ContactDatabase::class.java, "contactDB"
                     ).build()
