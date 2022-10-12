@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 /**
  * 1. List all entities here in db
  * 2. If we want to supply updated db with new release. Then increase the version.
  */
 @Database(entities = [Contact::class], version = 1, exportSchema = true)
+@TypeConverters(Convertors::class)
 abstract class ContactDatabase : RoomDatabase() {
     abstract fun contactDao(): ContactDao
 
