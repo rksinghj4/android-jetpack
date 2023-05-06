@@ -9,12 +9,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.statemanagement.rememberList.WellnessTasksList
-import com.example.statemanagement.rememberList.getWellnessTasks
+import com.example.statemanagement.rememberList.WellnessViewModel
 import com.example.statemanagement.ui.theme.StateManagementTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,14 +33,26 @@ class MainActivity : ComponentActivity() {
                     //WaterCounterWithRememberSaveAble()
 
                     //WaterCounterWithWellnessTask()
+                    //StateFullCounter()
 
-                    Column {
-                        StateFullCounter()
-                        val list = remember{ getWellnessTasks().toMutableStateList() }
-                        WellnessTasksList(list = list, onCloseTask = { task -> list.remove(task) })
-                    }
+                    WellnessScreen()
                 }
             }
+        }
+    }
+
+    @Composable
+    private fun WellnessScreen(wellnessViewModel: WellnessViewModel = viewModel()) {
+        Column {
+            StateFullCounter()
+            //val list = remember { getWellnessTasks().toMutableStateList() }
+
+            WellnessTasksList(list = wellnessViewModel.tasks,
+                onCheckedTask = { task, checked ->
+                    wellnessViewModel.changeTaskChecked(task, checked)
+                },
+                onCloseTask = { task -> wellnessViewModel.remove(task) }
+            )
         }
     }
 }

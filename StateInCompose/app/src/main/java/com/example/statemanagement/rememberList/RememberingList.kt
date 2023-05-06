@@ -18,18 +18,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 /**
- * Stateful composable
+ * It is Stateful composable
+ *
+ * WellnessTaskItemWithCheckbox was used to demo the rememberSaveable
+ * to persist the checked state of the task during configuration change.
  */
 @Composable
-fun WellnessTaskItemWithCheckbox(taskName: String, onClose: () -> Unit, modifier: Modifier = Modifier) {
+fun WellnessTaskItemWithCheckbox(
+    taskName: String,
+    onClose: () -> Unit,
+    modifier: Modifier = Modifier) {
     //Note1:As we know remember api stores the objects in composition,
     // While scrolling offscreen items leaves the Composition and the state that was remembered
     // using remember api is forgotten.
 
-
     // As we know rememberSaveable api stores the objects using saved instance state mechanism.
     //Note2 :Therefore rememberSaveable can store the state of the offscreen items of the list while scrolling.
-    var checkedState by rememberSaveable{ mutableStateOf(false) }
+    var checkedState by rememberSaveable{ mutableStateOf(false) } // try with remember
 
     WellnessTaskItem(
         taskName = taskName,
