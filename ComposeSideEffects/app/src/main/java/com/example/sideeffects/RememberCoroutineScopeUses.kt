@@ -1,4 +1,4 @@
-package com.example.sideeffects.ui.theme
+package com.example.sideeffects
 
 import android.util.Log
 import androidx.compose.foundation.layout.Column

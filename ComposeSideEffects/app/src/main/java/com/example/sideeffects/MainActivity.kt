@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.sideeffects.ui.theme.RememberCoroutineScope
 import com.example.sideeffects.ui.theme.SideEffectsTheme
 
 
@@ -26,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     //ListComposable()
                     //Counter()
                     //LaunchedEffectHandle()
-                    RememberCoroutineScope()
+                    //RememberCoroutineScope()
+                    //RememberUpdatedState()
+                    OnTheFlyDecisionToLandOn()
                 }
             }
         }
