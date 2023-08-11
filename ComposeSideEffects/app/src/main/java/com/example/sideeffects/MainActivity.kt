@@ -30,7 +30,11 @@ class MainActivity : ComponentActivity() {
                     //OnTheFlyDecisionToLandOn()
                     //DisposableEffectHandler()
                     //MediaPlayerDisposable()
-                    KeyBoardDisposable()
+                    //KeyBoardDisposable()
+                    //ProduceStateMimic()
+                    //ProduceState()
+                    LoadingUsingProduceState()
+                    //DerivedStateMimic()
                 }
             }
         }
