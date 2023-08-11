@@ -74,7 +74,7 @@ fun LoadingUsingProduceState() {
     val degree = produceState(initialValue = 0) {
         while (true) {
             delay(16)
-            value = (value + 20 ) % 360
+            value = (value + 20) % 360
         }
     }
     Box(
@@ -86,8 +86,9 @@ fun LoadingUsingProduceState() {
                 modifier = Modifier
                     .size(60.dp)
                     .rotate(degrees = degree.value.toFloat()),
-                imageVector = Icons.Default.Refresh, contentDescription = "Refresh")
-            
+                imageVector = Icons.Default.Refresh, contentDescription = "Refresh"
+            )
+
             Text(text = "Loading")
         }
     }
@@ -105,10 +106,6 @@ fun DerivedStateMimic() {
             value++ //here we can access state by using value property
         }
     }
-
-    /*val dState = derivedStateOf {
-
-    }*/
 
     Text(
         text = "${mState.value} * ${pState.value} = ${mState.value * pState.value}",
@@ -130,8 +127,14 @@ fun DerivedState() {
         }
     }
 
+    val dState = remember {
+        derivedStateOf {
+            "${mState.value} * ${pState.value} = ${mState.value * pState.value}"
+        }
+    }
+
     Text(
-        text = "${mState.value} * ${pState.value} = ${mState.value * pState.value}",
+        text = dState.value,
         modifier = Modifier.wrapContentSize(),
         style = MaterialTheme.typography.headlineLarge
     )
