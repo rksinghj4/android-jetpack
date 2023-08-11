@@ -27,7 +27,10 @@ class MainActivity : ComponentActivity() {
                     //LaunchedEffectHandle()
                     //RememberCoroutineScope()
                     //RememberUpdatedState()
-                    OnTheFlyDecisionToLandOn()
+                    //OnTheFlyDecisionToLandOn()
+                    //DisposableEffectHandler()
+                    //MediaPlayerDisposable()
+                    KeyBoardDisposable()
                 }
             }
         }
