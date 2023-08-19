@@ -19,6 +19,9 @@ import com.example.tweetsy.viewModels.DetailViewModel
 
 @Composable
 fun DetailsScreen() {
+    /**
+     * In compose navigation framework view-model scope is associated with NavBackStackEntry.
+     */
     val detailViewModel: DetailViewModel = hiltViewModel()
     val tweets = detailViewModel.tweets.collectAsState()
 
