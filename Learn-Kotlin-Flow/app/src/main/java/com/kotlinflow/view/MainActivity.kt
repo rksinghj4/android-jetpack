@@ -1,4 +1,4 @@
-package com.kotlinflow
+package com.kotlinflow.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
