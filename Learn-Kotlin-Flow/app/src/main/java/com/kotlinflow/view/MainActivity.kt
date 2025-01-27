@@ -17,10 +17,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.kotlinflow.ui.theme.LearnKotlinFlowTheme
 import com.kotlinflow.view.common.ErrorScreen
 import com.kotlinflow.view.common.LoadingScreen
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
 
+
     private val viewModel by viewModels<MainViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +44,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun Screen() {
         val showLoadingIndicator by viewModel.showLoadingIndicatorStateFlow.collectAsState()
-        val errorSharedState by viewModel.errorSharedFlow.collectAsState(initial = true)
+        val errorSharedState by viewModel.errorSharedFlow.collectAsState(initial = false)
 
         when {
             showLoadingIndicator -> {
