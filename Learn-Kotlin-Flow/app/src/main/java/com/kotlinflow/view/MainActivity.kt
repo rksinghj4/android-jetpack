@@ -1,5 +1,6 @@
 package com.kotlinflow.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,18 +14,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.tooling.preview.Preview
+import com.kotlinflow.models.UiState
 import com.kotlinflow.ui.theme.LearnKotlinFlowTheme
 import com.kotlinflow.view.common.ErrorScreen
 import com.kotlinflow.view.common.LoadingScreen
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.kotlinflow.view.retrofit.single.SingleNetworkCallActivity
 
 class MainActivity : ComponentActivity() {
 
 
     private val viewModel by viewModels<MainViewModel>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +37,15 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Screen()
+                    val context = LocalContext.current
+
+                    MainScreen(
+                        onSingleNetworkClick = {
+                            Intent(context, SingleNetworkCallActivity::class.java).also {
+                                context.startActivity(it)
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -43,35 +53,43 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun Screen() {
-        val showLoadingIndicator by viewModel.showLoadingIndicatorStateFlow.collectAsState()
+        val context = LocalContext.current
+
+        val uiState by viewModel.uiStateFlow.collectAsState()
         val errorSharedState by viewModel.errorSharedFlow.collectAsState(initial = false)
 
-        when {
-            showLoadingIndicator -> {
+        when (uiState) {
+            is UiState.Loading -> {
                 LoadingScreen()
             }
 
-            errorSharedState -> {
-                ErrorScreen(
-                    icon = Icons.Default.Info,
-                    title = "Error",
-                    errorDis = "Error message",
-                    onDismissRequest = {
-                        viewModel.dismissErrorDialog()
-                    },
-                    onConfirmation = {
-                        viewModel.dismissErrorDialog()
+            is UiState.Success -> {
+                MainScreen(
+                    onSingleNetworkClick = {
+                        Intent(context, SingleNetworkCallActivity::class.java).also {
+                            context.startActivity(it)
+                        }
                     }
                 )
             }
 
             else -> {
-                MainScreen(
-                    onSingleNetworkClick = {
-
-                    }
-                )
+                //Intentionally blank
             }
+        }
+
+        if (errorSharedState) {
+            ErrorScreen(
+                icon = Icons.Default.Info,
+                title = "Error",
+                errorDis = "Error message",
+                onDismissRequest = {
+                    viewModel.dismissErrorDialog()
+                },
+                onConfirmation = {
+                    viewModel.dismissErrorDialog()
+                }
+            )
         }
     }
 

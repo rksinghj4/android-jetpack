@@ -2,7 +2,7 @@ package com.kotlinflow.models
 
 import com.google.gson.annotations.SerializedName
 
-data class ApiUser(
+data class User(
     @SerializedName("id")
     val id: Int,
 
