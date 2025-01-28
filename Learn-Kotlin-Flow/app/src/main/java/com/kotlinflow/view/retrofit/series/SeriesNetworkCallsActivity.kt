@@ -1,12 +1,10 @@
-package com.kotlinflow.view.retrofit.single
+package com.kotlinflow.view.retrofit.series
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
@@ -21,13 +19,10 @@ import com.kotlinflow.view.common.LoadingScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SingleNetworkCallActivity : ComponentActivity() {
-
-    private val viewModel by viewModels<SingleNetworkCallViewModel>()
-
+class SeriesNetworkCallsActivity : ComponentActivity() {
+    private val viewModel by viewModels<SeriesNetworkCallViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             LearnKotlinFlowTheme {
                 Surface(
@@ -36,25 +31,23 @@ class SingleNetworkCallActivity : ComponentActivity() {
                 ) {
                     val uiState by viewModel.uiStateFlow.collectAsState()
                     val errorState by viewModel.errorSharedFlow.collectAsState(initial = false)
+
                     when (uiState) {
                         is UiState.Loading -> {
                             LoadingScreen()
                         }
 
                         is UiState.Success -> {
-                            CommonScreen((uiState as UiState.Success<List<User>>).data)
+                            CommonScreen(users = (uiState as UiState.Success<List<User>>).data)
                         }
 
                         is UiState.Error -> {
                             if (errorState) {
                                 ErrorScreen(
-                                    onDismissRequest = {
-                                        viewModel.dismissErrorScreen()
-                                    },
+                                    onDismissRequest = { viewModel.dismissErrorScreen() },
                                     onConfirmation = {
                                         viewModel.dismissErrorScreen()
-                                    }
-                                )
+                                    })
                             }
                         }
                     }
@@ -63,5 +56,3 @@ class SingleNetworkCallActivity : ComponentActivity() {
         }
     }
 }
-
-

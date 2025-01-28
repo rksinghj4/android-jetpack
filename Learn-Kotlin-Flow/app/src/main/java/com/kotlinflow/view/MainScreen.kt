@@ -7,19 +7,29 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 
+data class ClickAction(
+    val onSingleNetworkClick: () -> Unit = {},
+    val onSeriesNetworkCallClick: () -> Unit = {},
+    val onParallelNetworkCallClick: () -> Unit = {},
+)
+
 @Composable
 fun MainScreen(
-    onSingleNetworkClick: () -> Unit = {}
+    clickAction: ClickAction
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = { onSingleNetworkClick.invoke() }) {
+        Button(onClick = {
+            clickAction.onSingleNetworkClick.invoke()
+        }) {
             Text(text = "Single network call")
         }
 
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            clickAction.onSeriesNetworkCallClick.invoke()
+        }) {
             Text(text = "Series network call")
         }
 

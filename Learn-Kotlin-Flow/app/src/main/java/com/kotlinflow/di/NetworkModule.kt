@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(ViewModelComponent::class)
 @Module
 object NetworkModule {
     private const val BASE_URL = "https://5e510330f2c0d300147c034c.mockapi.io/"
@@ -35,7 +35,7 @@ object NetworkModule {
     fun ioDispatcher(): CoroutineDispatcher = Dispatchers.IO
 }
 
-@InstallIn(ActivityRetainedComponent::class)
+@InstallIn(ViewModelComponent::class)
 @Module
 interface RepositoryModule {
     @Binds

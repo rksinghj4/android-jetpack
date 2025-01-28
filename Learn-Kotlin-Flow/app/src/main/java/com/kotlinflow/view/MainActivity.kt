@@ -1,5 +1,6 @@
 package com.kotlinflow.view
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,10 +22,10 @@ import com.kotlinflow.models.UiState
 import com.kotlinflow.ui.theme.LearnKotlinFlowTheme
 import com.kotlinflow.view.common.ErrorScreen
 import com.kotlinflow.view.common.LoadingScreen
+import com.kotlinflow.view.retrofit.series.SeriesNetworkCallsActivity
 import com.kotlinflow.view.retrofit.single.SingleNetworkCallActivity
 
 class MainActivity : ComponentActivity() {
-
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -40,64 +41,33 @@ class MainActivity : ComponentActivity() {
                     val context = LocalContext.current
 
                     MainScreen(
-                        onSingleNetworkClick = {
-                            Intent(context, SingleNetworkCallActivity::class.java).also {
-                                context.startActivity(it)
-                            }
-                        }
-                    )
-                }
+                        clickActions(context)
+                    )                }
             }
         }
     }
 
-    @Composable
-    fun Screen() {
-        val context = LocalContext.current
-
-        val uiState by viewModel.uiStateFlow.collectAsState()
-        val errorSharedState by viewModel.errorSharedFlow.collectAsState(initial = false)
-
-        when (uiState) {
-            is UiState.Loading -> {
-                LoadingScreen()
+    private fun clickActions(context: Context) = ClickAction(
+        onSingleNetworkClick = {
+            Intent(context, SingleNetworkCallActivity::class.java).also {
+                context.startActivity(it)
             }
-
-            is UiState.Success -> {
-                MainScreen(
-                    onSingleNetworkClick = {
-                        Intent(context, SingleNetworkCallActivity::class.java).also {
-                            context.startActivity(it)
-                        }
-                    }
-                )
+        },
+        onSeriesNetworkCallClick = {
+            Intent(context, SeriesNetworkCallsActivity::class.java).also {
+                context.startActivity(it)
             }
+        },
+        onParallelNetworkCallClick = {
 
-            else -> {
-                //Intentionally blank
-            }
         }
-
-        if (errorSharedState) {
-            ErrorScreen(
-                icon = Icons.Default.Info,
-                title = "Error",
-                errorDis = "Error message",
-                onDismissRequest = {
-                    viewModel.dismissErrorDialog()
-                },
-                onConfirmation = {
-                    viewModel.dismissErrorDialog()
-                }
-            )
-        }
-    }
+    )
 
     @Preview(showBackground = true)
     @Composable
-    fun GreetingPreview() {
+    fun MainScreenPreview() {
         LearnKotlinFlowTheme {
-            MainScreen()
+            MainScreen(ClickAction())
         }
     }
 }
