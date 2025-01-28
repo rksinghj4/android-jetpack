@@ -22,6 +22,7 @@ import com.kotlinflow.models.UiState
 import com.kotlinflow.ui.theme.LearnKotlinFlowTheme
 import com.kotlinflow.view.common.ErrorScreen
 import com.kotlinflow.view.common.LoadingScreen
+import com.kotlinflow.view.retrofit.parallel.ParallelNetworkCallsActivity
 import com.kotlinflow.view.retrofit.series.SeriesNetworkCallsActivity
 import com.kotlinflow.view.retrofit.single.SingleNetworkCallActivity
 
@@ -42,7 +43,8 @@ class MainActivity : ComponentActivity() {
 
                     MainScreen(
                         clickActions(context)
-                    )                }
+                    )
+                }
             }
         }
     }
@@ -59,7 +61,9 @@ class MainActivity : ComponentActivity() {
             }
         },
         onParallelNetworkCallClick = {
-
+            Intent(context, ParallelNetworkCallsActivity::class.java).also {
+                context.startActivity(it)
+            }
         }
     )
 

@@ -33,7 +33,9 @@ fun MainScreen(
             Text(text = "Series network call")
         }
 
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = {
+            clickAction.onParallelNetworkCallClick.invoke()
+        }) {
             Text(text = "Parallel network call")
         }
 

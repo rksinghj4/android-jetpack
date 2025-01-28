@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,18 +37,20 @@ class SeriesNetworkCallViewModel @Inject constructor(
     private val _errorSharedFlow = MutableSharedFlow<Boolean>()
     internal val errorSharedFlow = _errorSharedFlow.asSharedFlow()
 
+    /**
+     * Two perform the tasks in series we can use
+     * 1. map -> if 2nd task is not a long running operation
+     * 2. flatMapConcat -> if 2nd task is long running operation
+     */
     @OptIn(ExperimentalCoroutinesApi::class)
     fun fetchUsers() {
         viewModelScope.launch(Dispatchers.Main) {
             val userMutableList = mutableListOf<User>()
             //Current line is on main thread
             userRepository.getUsers()
-                .flowOn(dispatcher)
                 .catch {
-                    //Catching on main
-                    _uiStateFlow.emit(UiState.Error(it.toString()))
+                    emitAll(flowOf(emptyList()))
                 }
-                .flowOn(Dispatchers.Main)
                 .flatMapConcat {
                     /**
                      * flatMapConcat: For long running operation like n/w call or db operation we use flatMapConcat
@@ -54,12 +58,19 @@ class SeriesNetworkCallViewModel @Inject constructor(
                      */
                     //Running on IO
                     userMutableList.addAll(it)
-                    //Note: In flatMapConcat, last statement of lambda must be Flow<T>
-                    userRepository.getMoreUsers()
+                    /**
+                     * Note: In flatMapConcat, LastStatement of lambda must be Flow<T>
+                     * flatMapConcat - returns Flow<LastStatement> i.e. Flow<Flow<T>>
+                     * where as map return just Flow<T>
+                     */
+                    userRepository.getMoreUsers().catch {
+                        emitAll(flowOf(emptyList()))
+                    }
                 }
                 .flowOn(dispatcher)
                 .catch {
                     //Catching on main
+                    _errorSharedFlow.emit(true)
                     _uiStateFlow.emit(UiState.Error(it.toString()))
                 }
                 .collect { moreUsers ->
