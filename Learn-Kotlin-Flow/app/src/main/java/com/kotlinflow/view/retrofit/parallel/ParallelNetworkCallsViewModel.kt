@@ -39,7 +39,11 @@ class ParallelNetworkCallsViewModel @Inject constructor(
     private fun fetchUsers() {
         viewModelScope.launch(Dispatchers.Main) {
             //Main thread
-            userRepository.getUsersWithError().zip(userRepository.getUsers().catch {
+            userRepository.getUsersWithError().catch {
+                //Handle gracefully if getUsersWithError() fails
+                Log.d("$TAG 2", it.toString())
+                emitAll(flowOf(emptyList()))
+            }.zip(userRepository.getUsers().catch {
                 //Handle gracefully if getUsers() fails
                 Log.d("$TAG 2", it.toString())
                 emitAll(flowOf(emptyList()))
@@ -50,17 +54,18 @@ class ParallelNetworkCallsViewModel @Inject constructor(
                 allUsers.addAll(moreUsers)
                 return@zip allUsers
             }
-            .flowOn(dispatcher)
-            .catch {
-                //Handle here if some exception happens during pairing them up
-                //Main thread
-                Log.d("$TAG Result", it.toString())
-                _errorSharedFlow.emit(true)
-                _uiStateFlow.emit(UiState.Error(it.toString()))
-            }.collect {
-                //main thread
-                _uiStateFlow.emit(UiState.Success(it))
-            }
+                .flowOn(dispatcher)
+                .catch {
+                    //Handle here if some exception happens during pairing them up
+                    //Main thread
+                    Log.d("$TAG Result", it.toString())
+                    _errorSharedFlow.emit(true)
+                    _uiStateFlow.emit(UiState.Error(it.toString()))
+                }.collect {
+                    //Note: We need to handle the case where both apis failed and we come here with empty response.
+                    //main thread
+                    _uiStateFlow.emit(UiState.Success(it))
+                }
         }
     }
 
