@@ -1,5 +1,7 @@
 package com.filedownloader.viewmodelinternals
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -20,6 +22,7 @@ import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 
 class MainActivity : ComponentActivity() {
     //private val viewModel by viewModels<MainViewModel>()
+    //private val myApplication = MyApplication()//Never ever create Application object
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -29,12 +32,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val viewModel = MainViewModel()
+                    val viewModel =
+                        (application as MyApplication).getViewModel(MainViewModel::class.java.name) //
 
                     //TestLocalHoisting()
-                    //TestViewModel(viewModel)
-                    TestViewModelWithLocalCreate()
-
+                    TestViewModel(viewModel)
+                    //TestViewModelWithLocalCreate()
                 }
             }
         }
@@ -44,9 +47,12 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun TestViewModel(viewModel: MainViewModel) {
         val count = viewModel.count
-        MainScreen(count = count.intValue) {
+        MainScreen(count = count.intValue, increment = {
             viewModel.increment()
             Log.e(TAG, "count = ${count.intValue}")
+        }) {
+            SecondActivity.show(this)
+            finish()
         }
     }
 
@@ -54,21 +60,40 @@ class MainActivity : ComponentActivity() {
     fun TestViewModelWithLocalCreate() {
         Log.d(TAG, "TestViewModelWithLocalCreate called on every change of viewModel.count")
         val viewModel = MainViewModel()//On every recomposition new object is created.
-        MainScreen(count = viewModel.count.intValue) {
+        MainScreen(count = viewModel.count.intValue, increment = {
             viewModel.increment()
             Log.e(TAG, "count = ${viewModel.count.intValue}")
+        }) {
+            SecondActivity.show(this)
         }
     }
-
 
     @Composable
     fun TestLocalHoisting() {//Stateful composable
         val count = remember {
             mutableIntStateOf(0)//MutableIntState
         }
-        MainScreen(count = count.intValue) {
+        MainScreen(count = count.intValue, increment = {
             count.intValue++
             Log.e(TAG, "count = ${count.intValue}")
+        }) {
+            SecondActivity.show(this)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        //onDestroy() - is called for configurations changes also.
+        if (!isChangingConfigurations) {
+            (application as MyApplication).clearViewModel()
+        }
+    }
+
+    companion object {
+        fun show(fromActivity: Activity) {
+            Intent(fromActivity, MainActivity::class.java).also {
+                fromActivity.startActivity(it)
+            }
         }
     }
 }

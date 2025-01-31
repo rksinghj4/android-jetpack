@@ -16,7 +16,11 @@ import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 const val TAG = "TEST"
 
 @Composable
-fun MainScreen(count: Int, increment: () -> Unit) {
+fun MainScreen(
+    count: Int,
+    increment: () -> Unit = {},
+    nextActivity: () -> Unit = {}
+) {
     //Stateless composable
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -33,7 +37,7 @@ fun MainScreen(count: Int, increment: () -> Unit) {
             Text(text = "Click me")
         }
 
-        Button(onClick = { }) {
+        Button(onClick = nextActivity) {
             //Skip the recomposition on count change
             Text(text = "Go to next")
         }
