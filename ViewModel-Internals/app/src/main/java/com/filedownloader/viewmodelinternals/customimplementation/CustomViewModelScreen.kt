@@ -1,7 +1,5 @@
-package com.filedownloader.viewmodelinternals
+package com.filedownloader.viewmodelinternals.customimplementation
 
-import android.util.Log
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,10 +14,11 @@ import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 const val TAG = "TEST"
 
 @Composable
-fun MainScreen(
+fun CustomViewModelScreen(
     count: Int,
     increment: () -> Unit = {},
-    nextActivity: () -> Unit = {}
+    finishAndGoNextActivity: () -> Unit = {},
+    goNextActivity: () -> Unit = {}
 ) {
     //Stateless composable
     Column(
@@ -34,20 +33,25 @@ fun MainScreen(
         Button(onClick = {
             increment.invoke()
         }) {
-            Text(text = "Click me")
+            Text(text = "Increase counter")
         }
 
-        Button(onClick = nextActivity) {
+        Button(onClick = finishAndGoNextActivity) {
             //Skip the recomposition on count change
-            Text(text = "Go to next")
+            Text(text = "Finish and Go Next")
+        }
+
+        Button(onClick = goNextActivity) {
+            //Skip the recomposition on count change
+            Text(text = "Without finish - Go Next")
         }
     }
 }
 
 @Preview
 @Composable
-fun MainScreenPreview() {
+fun CustomViewModelScreenPreview() {
     ViewModelInternalsTheme {
-        MainScreen(0) {}
+        CustomViewModelScreen(0) {}
     }
 }

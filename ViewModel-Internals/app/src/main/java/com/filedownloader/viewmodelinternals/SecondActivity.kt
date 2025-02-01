@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import com.filedownloader.viewmodelinternals.customimplementation.CustomViewModelActivity
 import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 
 class SecondActivity : ComponentActivity() {
@@ -21,15 +22,16 @@ class SecondActivity : ComponentActivity() {
                         Text(text = "Second Activity")
 
                         Button(onClick = {
-                            MainActivity.show(this@SecondActivity)
+                            CustomViewModelActivity.show(this@SecondActivity)
                         }) {
-                            Text(text = "Go to main")
+                            Text(text = "Go back")
                         }
                     }
                 }
             }
         }
     }
+
 
     companion object {
         fun show(fromActivity: Activity) {

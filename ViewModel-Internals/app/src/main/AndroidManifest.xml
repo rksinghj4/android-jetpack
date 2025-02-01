@@ -14,6 +14,9 @@
         android:theme="@style/Theme.ViewModelInternals"
         tools:targetApi="31">
         <activity
+            android:name=".customimplementation.CustomViewModelActivity"
+            android:exported="false" />
+        <activity
             android:name=".SecondActivity"
             android:exported="false" />
         <activity

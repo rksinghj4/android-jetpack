@@ -1,21 +1,21 @@
 package com.filedownloader.viewmodelinternals
 
 import android.app.Application
-import androidx.lifecycle.ViewModel
+import com.filedownloader.viewmodelinternals.customimplementation.CustomViewModel
 
 class MyApplication : Application() {
 
-    private val map = HashMap<String, MainViewModel>()
+    private val map = HashMap<String, CustomViewModel>()
     override fun onCreate() {
         super.onCreate()
     }
 
-    fun getViewModel(key: String): MainViewModel {
+    fun getViewModel(key: String): CustomViewModel {
         if (map[key] != null) {
             return map[key]!!
         }
 
-        map[key] = MainViewModel()
+        map[key] = CustomViewModel()
 
         return map[key]!!
     }
