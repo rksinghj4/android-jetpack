@@ -28,8 +28,8 @@ typealias Observer<T> = (T?) -> Unit
  */
 
 // In LiveDataWithoutLifecycle<T> T covers both nullable as well as non nullable
-abstract class LiveDataWithoutLifecycle<T>(value: T? = null) {
-    private var data: T? = null
+abstract class LiveDataWithoutLifecycle<T>(initialValue: T? = null) {
+    private var data: T? = initialValue
 
     private val observers = arrayListOf<Observer<T>>()
 
@@ -67,6 +67,8 @@ abstract class LiveDataWithoutLifecycle<T>(value: T? = null) {
         synchronized(mDataLock) {
             //mPendingData has noData to post, so new value can be posted to it
             shouldPostTask = mPendingData == noData
+            //If already one task is scheduled in message queue, then shouldPostTask will be false,
+            // whenever it will gets executed then this updated value will be posted
             mPendingData = value
         }
         if (!shouldPostTask) {
@@ -79,6 +81,7 @@ abstract class LiveDataWithoutLifecycle<T>(value: T? = null) {
     open fun setValue(value: T?) {
         assertMainThread("setValue")
         data = value//Immediate/direct update to actual data
+        //Notify all observer
         observers.forEach {
             it.invoke(data)
         }
@@ -134,6 +137,9 @@ class MutableLiveDataWithoutLifecycle<T>(value: T? = null) : LiveDataWithoutLife
     }
 }
 
+/**
+ * Don't run main to test live data it will give error. Use Activity to test.
+ */
 private fun main() {
     val liveData1: MutableLiveDataWithoutLifecycle<String?> =
         MutableLiveDataWithoutLifecycle("Singh")//No error for nullable type
