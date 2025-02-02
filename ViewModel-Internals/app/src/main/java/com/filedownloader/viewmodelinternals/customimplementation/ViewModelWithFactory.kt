@@ -9,14 +9,8 @@ class ViewModelWithDependencies(
     init {
         println("ViewModelWithDependencies - initialize")
     }
-
-    companion object {
-        fun create() {
-
-        }
-    }
 }
-
+//SAM
 fun interface Factory<T> {
     fun create(): T
 }
