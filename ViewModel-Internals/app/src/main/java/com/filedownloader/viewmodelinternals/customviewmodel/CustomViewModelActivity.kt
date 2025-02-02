@@ -1,4 +1,4 @@
-package com.filedownloader.viewmodelinternals.customimplementation
+package com.filedownloader.viewmodelinternals.customviewmodel
 
 import android.app.Activity
 import android.content.Intent

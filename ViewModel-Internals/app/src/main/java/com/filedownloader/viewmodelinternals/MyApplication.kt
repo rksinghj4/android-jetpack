@@ -1,7 +1,7 @@
 package com.filedownloader.viewmodelinternals
 
 import android.app.Application
-import com.filedownloader.viewmodelinternals.customimplementation.CustomViewModel
+import com.filedownloader.viewmodelinternals.customviewmodel.CustomViewModel
 
 class MyApplication : Application() {
 

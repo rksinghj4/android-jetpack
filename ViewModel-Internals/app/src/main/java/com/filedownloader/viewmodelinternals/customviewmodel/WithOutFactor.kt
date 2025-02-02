@@ -1,6 +1,4 @@
-package com.filedownloader.viewmodelinternals.customimplementation
-
-import kotlin.reflect.KClass
+package com.filedownloader.viewmodelinternals.customviewmodel
 
 /**
  * If ViewModel doesn't have any dependencies then we create VM without any factory

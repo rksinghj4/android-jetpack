@@ -1,4 +1,4 @@
-package com.filedownloader.viewmodelinternals.customimplementation
+package com.filedownloader.viewmodelinternals.customviewmodel
 
 import androidx.lifecycle.SavedStateHandle
 

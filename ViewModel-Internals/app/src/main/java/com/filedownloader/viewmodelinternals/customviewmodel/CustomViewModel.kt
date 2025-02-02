@@ -1,4 +1,4 @@
-package com.filedownloader.viewmodelinternals.customimplementation
+package com.filedownloader.viewmodelinternals.customviewmodel
 
 import androidx.compose.runtime.asIntState
 import androidx.compose.runtime.mutableIntStateOf

@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import com.filedownloader.viewmodelinternals.customimplementation.CustomViewModelActivity
+import com.filedownloader.viewmodelinternals.customviewmodel.CustomViewModelActivity
 import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 
 class SecondActivity : ComponentActivity() {

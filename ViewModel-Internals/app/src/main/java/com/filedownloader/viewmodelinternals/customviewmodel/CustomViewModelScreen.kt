@@ -1,4 +1,4 @@
-package com.filedownloader.viewmodelinternals.customimplementation
+package com.filedownloader.viewmodelinternals.customviewmodel
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
