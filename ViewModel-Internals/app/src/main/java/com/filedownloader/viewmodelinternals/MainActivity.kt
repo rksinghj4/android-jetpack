@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.filedownloader.viewmodelinternals.customlivedata.CustomLivedataActivity
 import com.filedownloader.viewmodelinternals.customviewmodel.CustomViewModelActivity
 import com.filedownloader.viewmodelinternals.ui.theme.ViewModelInternalsTheme
 import com.filedownloader.viewmodelinternals.utils.Utils
@@ -47,7 +48,9 @@ class MainActivity : ComponentActivity() {
                 Text(text = "Test Custom ViewModel")
             }
 
-            Button(onClick = { /*TODO*/ }) {
+            Button(onClick = {
+                CustomLivedataActivity.show(this@MainActivity)
+            }) {
                 Text(text = "Test Custom Livedata")
             }
 
