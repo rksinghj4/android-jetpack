@@ -26,9 +26,9 @@ fun CustomViewModelScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Not recompose when count changes")//Skip the recomposition on count change
+        Text(text = "Current line - not recompose when count changes")//Skip the recomposition on count change
 
-        Text(text = "$count")
+        Text(text = "This line recomposes when count change $count")
 
         Button(onClick = {
             increment.invoke()

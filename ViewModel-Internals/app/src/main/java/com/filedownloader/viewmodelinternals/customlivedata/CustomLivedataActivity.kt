@@ -8,6 +8,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -89,23 +90,42 @@ class CustomLivedataActivity : ComponentActivity() {
                         )
                     }
 
-
+                    val singleState = rememberSaveable {
+                        mutableStateOf("Raj")
+                    }
                     val colorState = rememberSaveable(stateSaver = ColorSaver) {
                         mutableStateOf(Color.Red)
                     }
-                    viewModel.colorLivedata.observe {
+
+                    /**
+                     * Without lifecycle owner
+                     */
+//                    viewModel.colorLivedata.observe {
+//                        it?.let {
+//                            colorState.value = it
+//                        }
+//                    }
+                    /**
+                     * With lifecycle owner
+                     */
+                    viewModel.colorLivedata.observe(this) {
                         it?.let {
                             colorState.value = it
                         }
                     }
-                    Screen(colorState = colorState)
+
+                    viewModel.singleLiveEvent.observe(this) {
+                        singleState.value = it
+                    }
+
+                    Screen(colorState = colorState, singleState.value)
                 }
             }
         }
     }
 
     @Composable
-    fun Screen(colorState: State<Color>) {
+    fun Screen(colorState: State<Color>, singleVale: String) {
         Column {
             Box(
                 modifier = Modifier
@@ -117,10 +137,20 @@ class CustomLivedataActivity : ComponentActivity() {
                     }
 
             ) {
-                Text(
-                    modifier = Modifier.align(Alignment.Center),
-                    text = "Updates : ${colorState.value}"
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Updates : ${colorState.value}"
+                    )
+
+                    Text(
+                        text = "SingleLiveEvent Updates : $singleVale"
+                    )
+                }
+
             }
 
             Button(modifier = Modifier
@@ -130,7 +160,7 @@ class CustomLivedataActivity : ComponentActivity() {
                 onClick = {
                     viewModel.updateLiveDataOnMainThread()
                 }) {
-                Text(text = "SetValue on main thread")
+                Text(text = "LiveData: SetValue on main thread")
             }
 
             Button(modifier = Modifier
@@ -140,7 +170,17 @@ class CustomLivedataActivity : ComponentActivity() {
                 onClick = {
                     viewModel.postValueFromBackgroundThread()
                 }) {
-                Text(text = "postValue from bg thread")
+                Text(text = "LiveData postValue from bg thread")
+            }
+
+            Button(modifier = Modifier
+                .weight(1f)
+                .wrapContentSize()
+                .align(Alignment.CenterHorizontally),
+                onClick = {
+                    viewModel.updateToSingleLiveEvent()
+                }) {
+                Text(text = "SingleLiveData: SetValue on main thread")
             }
         }
     }

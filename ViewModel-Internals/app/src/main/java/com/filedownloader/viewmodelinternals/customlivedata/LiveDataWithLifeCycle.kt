@@ -15,19 +15,18 @@ import java.lang.IllegalStateException
  * it receives the latest location data (if it didn’t already).
  */
 
-/**
- * clear
- */
 
 /**
+ * Must read blog - by Googler
  * https://medium.com/androiddevelopers/livedata-with-snackbar-navigation-and-other-events-the-singleliveevent-case-ac2622673150
  */
 abstract class LiveDataWithLifeCycle<T>(initialValue: T? = null) {
 
     private var data: T? = initialValue //1.
 
-    //It may have used by different owner
-    private val observersHashMap: HashMap<Observer<T>, LifecycleObserverWrapper> = HashMap()//2.
+    //It may have been used by different owner
+    private val observersHashMap: HashMap<CustomObserver<T>, LifecycleObserverWrapper> =
+        HashMap()//2.
 
     //Helper for thread safety
     private val mDataLock = Any()//1.
@@ -77,6 +76,7 @@ abstract class LiveDataWithLifeCycle<T>(initialValue: T? = null) {
     }
 
     private fun postOnMainThread(runnableTask: Runnable) {
+        //Initialize the mMainHandler with double check and synchronized block
         mMainHandler = mMainHandler ?: synchronized(mDataLock) {
             mMainHandler ?: Handler(Looper.getMainLooper())
         }
@@ -89,24 +89,24 @@ abstract class LiveDataWithLifeCycle<T>(initialValue: T? = null) {
         }
     }
 
-    private inline fun notifyChange(observerLambda: Observer<T?>) {
+    private inline fun notifyChange(observerLambda: CustomObserver<T?>) {
         observerLambda.invoke(data)
     }
 
-    fun observe(owner: LifecycleOwner, observer: Observer<T?>) {
+    fun observe(owner: LifecycleOwner, observer: CustomObserver<T?>) {
         val lifecycleObserverWrapper = LifecycleObserverWrapper(owner, observer)
         observersHashMap[observer] = lifecycleObserverWrapper
         //Note: Adding DefaultLifecycleObserver implementation  to real lifecycle of owner
         owner.lifecycle.addObserver(lifecycleObserverWrapper)//Now owner is
     }
 
-    private fun removeObserver(observer: Observer<T?>) {
+    private fun removeObserver(observer: CustomObserver<T?>) {
         val lifecycleObserverWrapper = observersHashMap.remove(observer)
         //Note: Removing DefaultLifecycleObserver implementation  from  real lifecycle of owner
         lifecycleObserverWrapper?.owner?.lifecycle?.removeObserver(lifecycleObserverWrapper)
     }
 
-    fun clear(owner: LifecycleOwner) {
+    fun clear(owner: LifecycleOwner) {//Remove Observers
         val toBeRemovedObserver = ArrayList<LifecycleObserverWrapper>()
         observersHashMap.values.forEach { lifecycleObserver ->
             if (lifecycleObserver.owner == owner) {//Remove all observer of this owner
@@ -124,8 +124,9 @@ abstract class LiveDataWithLifeCycle<T>(initialValue: T? = null) {
      */
     private inner class LifecycleObserverWrapper(
         val owner: LifecycleOwner,
-        val observerLambda: Observer<T?>
-    ) : DefaultLifecycleObserver {
+        val observerLambda: CustomObserver<T?>
+    ) : DefaultLifecycleObserver {//Just override what we need
+
         override fun onStart(owner: LifecycleOwner) {
             notifyChange(observerLambda)
         }
@@ -135,7 +136,7 @@ abstract class LiveDataWithLifeCycle<T>(initialValue: T? = null) {
         }
 
         override fun onDestroy(owner: LifecycleOwner) {
-            clear(owner)//We don't need to clear it from out side
+            clear(owner)//We don't need to clear it from out side(i.e Activity or Fragment)
             removeObserver(observerLambda)
         }
 

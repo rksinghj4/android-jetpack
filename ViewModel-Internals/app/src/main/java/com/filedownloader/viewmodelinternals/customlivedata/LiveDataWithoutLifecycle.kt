@@ -3,18 +3,17 @@ package com.filedownloader.viewmodelinternals.customlivedata
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.MainThread
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.asCoroutineDispatcher
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.lang.IllegalStateException
-import kotlin.coroutines.CoroutineContext
 
-//Note: Observer<T?> - can't use ? nullable type directly in declaration
+/**
+ * Note: CustomObserver<T?> - can't use ? nullable type directly in class declaration and typealias
+ * fun <T?> functionName() { } - gives error
+ */
 
-typealias Observer<T> = (T?) -> Unit
+fun <T> functionName() {} //No error
+
+typealias CustomObserver<T> = (T?) -> Unit
 
 /**
  * LiveDataWithoutLifecycle<T?> - can't use nullable in generic declaration (i.eT?) directly
@@ -31,7 +30,7 @@ typealias Observer<T> = (T?) -> Unit
 abstract class LiveDataWithoutLifecycle<T>(initialValue: T? = null) {
     private var data: T? = initialValue
 
-    private val observers = arrayListOf<Observer<T>>()
+    private val observers = arrayListOf<CustomObserver<T>>()
 
     //Helper needed
     private val mDataLock = Any()
@@ -54,7 +53,7 @@ abstract class LiveDataWithoutLifecycle<T>(initialValue: T? = null) {
         }
     }
 
-    fun observe(observer: Observer<T>) {
+    fun observe(observer: CustomObserver<T>) {
         observers.add(observer)
     }
 

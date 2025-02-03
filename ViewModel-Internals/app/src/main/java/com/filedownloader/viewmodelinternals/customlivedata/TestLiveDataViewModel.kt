@@ -16,10 +16,17 @@ class TestLiveDataViewModel() : ViewModel() {
         Color.Green,
         Color.Magenta
     )
-    internal var colorLivedata = MutableLiveDataWithoutLifecycle(Color.Cyan)
+    //internal var colorLivedata = MutableLiveDataWithoutLifecycle(Color.Cyan)
 
-    //internal var colorLivedata = MutableLiveDataWithLifecycle(Color.Cyan)
+    internal var colorLivedata = MutableLiveDataWithLifecycle(Color.Cyan)
         private set
+
+    internal val singleLiveEvent = SingleLiveEvent<String>()
+
+    fun updateToSingleLiveEvent() {
+        val stringList = listOf<String>("AA", "BB", "CC", "DD")
+        singleLiveEvent.value = stringList[Random.nextInt(stringList.size - 1)]
+    }
 
     fun updateLiveDataOnMainThread() {
         colorLivedata.setValue(color[Random.nextInt(color.size)])
