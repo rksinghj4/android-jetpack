@@ -1,5 +1,7 @@
 package com.kotlinflow.view.retrofit.series
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,6 +54,14 @@ class SeriesNetworkCallsActivity : ComponentActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    companion object {
+        fun show(context: Context) {
+            Intent(context, SeriesNetworkCallsActivity::class.java).also {
+                context.startActivity(it)
             }
         }
     }

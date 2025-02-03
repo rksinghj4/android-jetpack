@@ -1,4 +1,4 @@
-package com.kotlinflow.view.retrofit.parallel
+package com.kotlinflow.view.room
 
 import android.content.Context
 import android.content.Intent
@@ -10,19 +10,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import com.kotlinflow.database.UserDb
 import com.kotlinflow.models.UiState
-import com.kotlinflow.models.User
 import com.kotlinflow.ui.theme.LearnKotlinFlowTheme
-import com.kotlinflow.view.common.CommonScreen
+import com.kotlinflow.view.common.CommonScreenForDatabaseUsers
 import com.kotlinflow.view.common.ErrorScreen
 import com.kotlinflow.view.common.LoadingScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ParallelNetworkCallsActivity : ComponentActivity() {
-    private val viewModel by viewModels<ParallelNetworkCallsViewModel>()
+class RoomTestingActivity : ComponentActivity() {
+
+    private val viewModel by viewModels<RoomTestingViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,25 +31,21 @@ class ParallelNetworkCallsActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val uiState by viewModel.uiStateFlow.collectAsState()
-                    val errorState by viewModel.errorSharedFlow.collectAsState(initial = false)
-                    when (uiState) {
+                    val uiState = viewModel.uiStateFlow.collectAsState()
+                    val errorState = viewModel.errorSharedFlow.collectAsState(initial = false)
+
+                    when (uiState.value) {
                         is UiState.Loading -> {
                             LoadingScreen()
                         }
 
                         is UiState.Success -> {
-                            CommonScreen(users = (uiState as UiState.Success<List<User>>).data)
+                            CommonScreenForDatabaseUsers(users = (uiState.value as UiState.Success<List<UserDb>>).data)
                         }
 
                         is UiState.Error -> {
-                            if (errorState) {
-                                ErrorScreen(
-                                    onDismissRequest = { viewModel.dismissErrorScreen() },
-                                    onConfirmation = {
-                                        viewModel.dismissErrorScreen()
-                                    }
-                                )
+                            ErrorScreen(onDismissRequest = { viewModel.dismissErrorScreen() }) {
+                                viewModel.dismissErrorScreen()
                             }
                         }
                     }
@@ -60,7 +56,7 @@ class ParallelNetworkCallsActivity : ComponentActivity() {
 
     companion object {
         fun show(context: Context) {
-            Intent(context, ParallelNetworkCallsActivity::class.java).also {
+            Intent(context, RoomTestingActivity::class.java).also {
                 context.startActivity(it)
             }
         }

@@ -2,12 +2,15 @@ package com.kotlinflow.di
 
 import com.kotlinflow.repository.UserRepository
 import com.kotlinflow.repository.UserRepositoryImpl
+import com.kotlinflow.repository.UserRepositoryWithRoomAndWeb
+import com.kotlinflow.repository.UserRepositoryWithRoomAndWebImpl
+import com.kotlinflow.webservice.RoomDatabaseService
+import com.kotlinflow.webservice.RoomDatabaseServiceImpl
 import com.kotlinflow.webservice.WebService
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -40,4 +43,10 @@ object NetworkModule {
 interface RepositoryModule {
     @Binds
     fun getUserRepository(userRepository: UserRepositoryImpl): UserRepository
+
+    @Binds
+    fun getUserRepositoryWithRoomAndWeb(repository: UserRepositoryWithRoomAndWebImpl): UserRepositoryWithRoomAndWeb
+
+    @Binds
+    fun getRoomDatabaseService(repository: RoomDatabaseServiceImpl): RoomDatabaseService
 }

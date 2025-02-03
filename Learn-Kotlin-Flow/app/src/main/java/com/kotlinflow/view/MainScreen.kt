@@ -11,6 +11,7 @@ data class ClickAction(
     val onSingleNetworkClick: () -> Unit = {},
     val onSeriesNetworkCallClick: () -> Unit = {},
     val onParallelNetworkCallClick: () -> Unit = {},
+    val onRoomDBAccessClicked: () -> Unit = {}
 )
 
 @Composable
@@ -39,7 +40,7 @@ fun MainScreen(
             Text(text = "Parallel network call")
         }
 
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { clickAction.onRoomDBAccessClicked.invoke() }) {
             Text(text = "Room database lib")
         }
 

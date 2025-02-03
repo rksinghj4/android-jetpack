@@ -16,6 +16,9 @@
         android:theme="@style/Theme.LearnKotlinFlow"
         tools:targetApi="31">
         <activity
+            android:name=".view.room.RoomTestingActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.retrofit.parallel.ParallelNetworkCallsActivity"
             android:exported="false" />
         <activity

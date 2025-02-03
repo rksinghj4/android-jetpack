@@ -1,12 +1,12 @@
 package com.kotlinflow.view.retrofit.single
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.collectAsState
@@ -59,6 +59,14 @@ class SingleNetworkCallActivity : ComponentActivity() {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    companion object {
+        fun show(context: Context) {
+            Intent(context, SingleNetworkCallActivity::class.java).also {
+                context.startActivity(it)
             }
         }
     }
