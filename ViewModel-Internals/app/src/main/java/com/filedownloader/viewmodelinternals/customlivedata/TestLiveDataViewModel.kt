@@ -16,9 +16,9 @@ class TestLiveDataViewModel() : ViewModel() {
         Color.Green,
         Color.Magenta
     )
-    //internal var colorLivedata = MutableLiveDataWithoutLifecycle(Color.Cyan)
+    internal var colorLivedata = MutableLiveDataWithoutLifecycle(Color.Cyan)
 
-    internal var colorLivedata = MutableLiveDataWithLifecycle(Color.Cyan)
+    //internal var colorLivedata = MutableLiveDataWithLifecycle(Color.Cyan)
         private set
 
     fun updateLiveDataOnMainThread() {
