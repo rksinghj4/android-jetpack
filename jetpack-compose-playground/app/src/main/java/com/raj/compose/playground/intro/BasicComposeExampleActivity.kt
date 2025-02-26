@@ -16,9 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.raj.compose.playground.R
+import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
@@ -27,7 +29,7 @@ class BasicComposeExampleActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposePlaygroundTheme {
-                Surface {
+                TopBarScaffold(title = stringResource(R.string.basic_example)) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,

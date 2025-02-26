@@ -5,14 +5,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.raj.compose.playground.intro.BasicComposeExampleActivity
+import com.raj.compose.playground.intro.StateExampleActivity
+import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,22 +27,29 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             JetpackComposePlaygroundTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    MainScreen(
-                        modifier = Modifier.padding(innerPadding),
-                        clickAction(this)
-                    )
+                TopBarScaffold(title = stringResource(R.string.app_name), content = {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        MainScreen(
+                            modifier = Modifier,
+                            clickAction(this@MainActivity)
+                        )
+                    }
                 }
+                )
             }
         }
     }
 
-    fun clickAction(fromActivity: Activity) = ClickActions(
+    private fun clickAction(fromActivity: Activity) = ClickActions(
         onBasicExample = {
             BasicComposeExampleActivity.show(fromActivity)
         },
         onStateExample = {
-            
+            StateExampleActivity.show(fromActivity)
         },
         onRecompositionExample = {
 
