@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.raj.compose.playground.intro.BasicComposeExampleActivity
+import com.raj.compose.playground.intro.RecompositionActivity
 import com.raj.compose.playground.intro.StateExampleActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
             StateExampleActivity.show(fromActivity)
         },
         onRecompositionExample = {
-
+            RecompositionActivity.show(fromActivity)
         },
         onSideEffectsSelection = {
 
@@ -64,21 +65,4 @@ class MainActivity : ComponentActivity() {
 
         }
     )
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    JetpackComposePlaygroundTheme {
-        //Greeting("Android")
-    }
 }

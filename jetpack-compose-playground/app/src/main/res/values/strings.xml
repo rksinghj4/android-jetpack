@@ -5,4 +5,5 @@
     <string name="enter_firstname">Enter first name</string>
     <string name="enter_lastname">Enter last name</string>
     <string name="enter_username">Enter username</string>
+    <string name="recomposition">Recomposition demo</string>
 </resources>
