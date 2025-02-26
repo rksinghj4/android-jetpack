@@ -1,5 +1,6 @@
 package com.raj.compose.playground
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.raj.compose.playground.intro.BasicComposeExampleActivity
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,15 +22,37 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetpackComposePlaygroundTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                    MainScreen(
+                        modifier = Modifier.padding(innerPadding),
+                        clickAction(this)
                     )
                 }
             }
         }
     }
+
+    fun clickAction(fromActivity: Activity) = ClickActions(
+        onBasicExample = {
+            BasicComposeExampleActivity.show(fromActivity)
+        },
+        onStateExample = {
+            
+        },
+        onRecompositionExample = {
+
+        },
+        onSideEffectsSelection = {
+
+        },
+        onNeedOfStateHoisting = {
+
+        },
+        onStateHoistingExample = {
+
+        }
+    )
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
@@ -42,6 +66,6 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     JetpackComposePlaygroundTheme {
-        Greeting("Android")
+        //Greeting("Android")
     }
 }
