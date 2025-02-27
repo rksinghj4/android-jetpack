@@ -6,4 +6,7 @@
     <string name="enter_lastname">Enter last name</string>
     <string name="enter_username">Enter username</string>
     <string name="recomposition">Recomposition demo</string>
+    <string name="imperative_text">Imperative text</string>
+    <string name="declarative_example">Declarative Demo</string>
+
 </resources>

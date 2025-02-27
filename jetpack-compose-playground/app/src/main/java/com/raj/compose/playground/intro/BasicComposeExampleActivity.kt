@@ -45,6 +45,14 @@ class BasicComposeExampleActivity : ComponentActivity() {
 
     @Composable
     fun SimpleText() {
+        /**
+         * Does it use TextView(Part of android.jar) internally: Answer - no,
+         *
+         * Check Text -> BasicText -> SelectionController -> draw -> drawIntoCanvas
+         *
+         * To optimize the performance they have build the compose foundation
+         * from the scratch without using the old TextView etc
+         */
         Text(text = "Simple text")
     }
 
