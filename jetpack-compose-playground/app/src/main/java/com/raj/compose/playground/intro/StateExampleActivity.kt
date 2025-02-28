@@ -60,7 +60,6 @@ class StateExampleActivity : ComponentActivity() {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldWithoutState() {
     TextField(modifier = Modifier.padding(8.dp),
@@ -69,7 +68,6 @@ fun TextFieldWithoutState() {
         label = { Text(stringResource(R.string.enter_firstname)) })
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TextFieldWithNormalVariable() {
     var lastname = ""
@@ -106,6 +104,9 @@ fun StatelessCounter(count: Int, onClick: () -> Unit) {
     }
 }
 
+/**
+ * It can't be used for any other ViewModel except NewsViewModel
+ */
 @Composable
 fun StatefulUI(viewModel: NewsViewModel) {
     val news = viewModel.uiState.collectAsStateWithLifecycle()
@@ -117,6 +118,9 @@ fun StatefulUI(viewModel: NewsViewModel) {
     }
 }
 
+/**
+ * Stateless composable are reusable. data updates might be coming from different ViewModels
+ */
 @Composable
 fun StatelessUI(data: String, onClick: () -> Unit) {
     Text(data)
@@ -134,13 +138,16 @@ fun NewsScreenUsingStatefulUI(viewModel: NewsViewModel = viewModel()) {
 
 @Composable
 fun LanguageScreenUsingStatefulUI(viewModel: LanguageViewModel = viewModel()) {
+    /**
+     * StatefulUI can't be used for LanguageViewModel because of tight coupling with NewsViewModel
+     */
 //    StatefulUI(viewModel = viewModel)
 }
 
 @Composable
 fun NewsScreenUsingStatelessUI(viewModel: NewsViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    StatelessUI(data = uiState) {
+    StatelessUI(data = uiState) {//updates are coming from NewsViewModel
         viewModel.fetchNews()
     }
 }
@@ -148,7 +155,7 @@ fun NewsScreenUsingStatelessUI(viewModel: NewsViewModel = viewModel()) {
 @Composable
 fun LanguageScreenUsingStatelessUI(viewModel: LanguageViewModel = viewModel()) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    StatelessUI(data = uiState) {
+    StatelessUI(data = uiState) {//updates are coming from LanguageViewModel
         viewModel.fetchLanguages()
     }
 }

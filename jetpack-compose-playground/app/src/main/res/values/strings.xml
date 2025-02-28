@@ -8,5 +8,19 @@
     <string name="recomposition">Recomposition demo</string>
     <string name="imperative_text">Imperative text</string>
     <string name="declarative_example">Declarative Demo</string>
-
+    <string name="select_side_effect">Select SideEffect</string>
+    <string name="what_are_side_effects">What are Side Effects</string>
+    <string name="launched_effect">Launched Effect</string>
+    <string name="remember_coroutine_scope">rememberCoroutineScope</string>
+    <string name="disposable_effect">Disposable Effect</string>
+    <string name="side_effect">Side Effect</string>
+    <string name="derived_state">Derived State</string>
+    <string name="remember_updated_state">RememberUpdatedState</string>
+    <string name="produce_state">ProduceState</string>
+    <string name="snapshot_flow">SnapshotFlow</string>
+    <string name="need_of_state_hoisting">Need Of State Hoisting</string>
+    <string name="state_hoisting">State Hoisting</string>
+    <string name="click_here">Click here</string>
+    <string name="submit">Submit</string>
+    <string name="show_snackbar">Show Snackbar</string>
 </resources>

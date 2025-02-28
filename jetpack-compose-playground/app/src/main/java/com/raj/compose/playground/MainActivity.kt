@@ -9,21 +9,16 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.raj.compose.playground.compositionlocal.StructuralEqualityPolicyTest
 import com.raj.compose.playground.intro.BasicComposeExampleActivity
 import com.raj.compose.playground.intro.RecompositionActivity
 import com.raj.compose.playground.intro.StateExampleActivity
+import com.raj.compose.playground.ui.SideEffectSelectionActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +54,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun clickAction(fromActivity: Activity) = ClickActions(
+    private fun clickAction(fromActivity: Activity) = MainScreenClickActions(
         onBasicExample = {
             BasicComposeExampleActivity.show(fromActivity)
         },
@@ -70,7 +65,7 @@ class MainActivity : ComponentActivity() {
             RecompositionActivity.show(fromActivity)
         },
         onSideEffectsSelection = {
-
+            SideEffectSelectionActivity.show(fromActivity)
         },
         onNeedOfStateHoisting = {
 

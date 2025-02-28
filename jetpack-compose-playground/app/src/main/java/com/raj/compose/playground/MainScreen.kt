@@ -11,11 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 
-data class ClickActions(
+data class MainScreenClickActions(
     val onBasicExample: () -> Unit = {},
     val onStateExample: () -> Unit = {},
     val onRecompositionExample: () -> Unit = {},
@@ -26,7 +24,7 @@ data class ClickActions(
 )
 
 @Composable
-fun MainScreen(modifier: Modifier, clickActions: ClickActions) {
+fun MainScreen(modifier: Modifier, mainScreenClickActions: MainScreenClickActions) {
     /**
      * Return a CoroutineScope bound to this point in the composition using the
      * optional CoroutineContext provided by getContext. getContext will only be called once
@@ -38,43 +36,43 @@ fun MainScreen(modifier: Modifier, clickActions: ClickActions) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Button(onClick = clickActions.onBasicExample) {
+        Button(onClick = mainScreenClickActions.onBasicExample) {
             Text(text = "Basic Example")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onStateExample) {
+        Button(onClick = mainScreenClickActions.onStateExample) {
             Text(text = "State Example")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onRecompositionExample) {
+        Button(onClick = mainScreenClickActions.onRecompositionExample) {
             Text(text = "Recomposition Example")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onSideEffectsSelection) {
+        Button(onClick = mainScreenClickActions.onSideEffectsSelection) {
             Text(text = "Side Effects Selections")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onNeedOfStateHoisting) {
+        Button(onClick = mainScreenClickActions.onNeedOfStateHoisting) {
             Text(text = "Need of State Hoisting")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onStateHoistingExample) {
+        Button(onClick = mainScreenClickActions.onStateHoistingExample) {
             Text(text = "State Hoisting")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = clickActions.onStructuralEquality) {
+        Button(onClick = mainScreenClickActions.onStructuralEquality) {
             Text(text = "State Hoisting")
         }
         Spacer(modifier = Modifier.height(16.dp))

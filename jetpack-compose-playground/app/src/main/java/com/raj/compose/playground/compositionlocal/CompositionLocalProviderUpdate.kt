@@ -1,7 +1,6 @@
 package com.raj.compose.playground.compositionlocal
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
@@ -51,6 +50,7 @@ fun CompositionLocalProviderUpdateDisplayOtherTexts() {
         secondary = Color.Magenta,
         secondaryLight = Color.Green
     )
+    //CompositionLocalProvider to provide new value to ProvidableCompositionLocal (i.e LocalColors1)
     CompositionLocalProvider(value = LocalColors1 provides myUpDatedColor) {
         TextThree(displayText = "TextThree")// Removed  colors = colors
     }
