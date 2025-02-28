@@ -8,10 +8,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 
 data class ClickActions(
     val onBasicExample: () -> Unit = {},
@@ -20,10 +22,17 @@ data class ClickActions(
     val onSideEffectsSelection: () -> Unit = {},
     val onNeedOfStateHoisting: () -> Unit = {},
     val onStateHoistingExample: () -> Unit = {},
+    val onStructuralEquality: () -> Unit = {}
 )
 
 @Composable
 fun MainScreen(modifier: Modifier, clickActions: ClickActions) {
+    /**
+     * Return a CoroutineScope bound to this point in the composition using the
+     * optional CoroutineContext provided by getContext. getContext will only be called once
+     * and the same CoroutineScope instance will be returned across recompositions.
+     */
+    val scope = rememberCoroutineScope()
     Column(
         modifier = modifier.padding(24.dp),
         verticalArrangement = Arrangement.Center,
@@ -60,6 +69,12 @@ fun MainScreen(modifier: Modifier, clickActions: ClickActions) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = clickActions.onStateHoistingExample) {
+            Text(text = "State Hoisting")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Button(onClick = clickActions.onStructuralEquality) {
             Text(text = "State Hoisting")
         }
         Spacer(modifier = Modifier.height(16.dp))
