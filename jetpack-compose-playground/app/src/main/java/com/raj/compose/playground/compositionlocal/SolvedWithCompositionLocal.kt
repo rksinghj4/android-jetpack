@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
-private fun WhyItIsNeeded() {
+private fun WhyItIsNeededSolved() {
     /**
      * Without CompositionLocal we were forced to carry heave weight everywhere, wherever we need it.
      *
@@ -27,7 +27,7 @@ private fun DisplayOtherTexts() {//Removed colors: Colors
 }
 
 @Composable
-private fun TextOne(displayText: String) {//colors: Colors
+fun TextOne(displayText: String) {//colors: Colors
     Text(
         text = displayText,
         color = LocalColors1.current.primary
@@ -35,7 +35,7 @@ private fun TextOne(displayText: String) {//colors: Colors
 }
 
 @Composable
-private fun TextTwo(displayText: String) {////Removed colors: Colors
+fun TextTwo(displayText: String) {////Removed colors: Colors
     Text(
         text = displayText,
         color = LocalColors1.current.secondary //Removed colors.secondary
@@ -43,10 +43,10 @@ private fun TextTwo(displayText: String) {////Removed colors: Colors
 }
 
 @Composable
-private fun TextThree(displayText: String) {////Removed colors: Colors
+fun TextThree(displayText: String) {////Removed colors: Colors
     Text(
         text = displayText,
-        color = LocalColors1.current.primary//Removed colors.secondaryLight
+        color = LocalColors1.current.secondaryLight//Removed colors.secondaryLight
     )
 }
 
