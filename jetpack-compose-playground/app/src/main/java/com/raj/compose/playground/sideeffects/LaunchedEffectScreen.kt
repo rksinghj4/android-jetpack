@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -16,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -29,18 +29,7 @@ fun LaunchedEffectScreen() {
     Log.d(TAG, "Beginning of  - LaunchedEffectScreen")
 
     val context = LocalContext.current
-
-    val stringHolder = remember(LocalConfiguration.current) {
-        //Here @DisallowComposableCalls
-        Log.d(TAG, "remember - StringHolder")
-        StringHolder()
-    }.apply {
-        this.str = stringResource(R.string.launched_effect)
-        Log.d(TAG, "apply - stringResource")
-    }
-
-    //val toastText = stringResource(R.string.what_are_side_effects)//Optimize it by remembering
-    val toastText = stringHolder.str
+    val toastText = stringResource(R.string.launched_effect)
 
     /**
      * makeText() and show() both are non composable and compose framework
@@ -51,10 +40,25 @@ fun LaunchedEffectScreen() {
      *     implementation(platform("androidx.compose:compose-bom:2023.03.00"))
      *So to handle side effect we need to use
      */
+    //Composable can be called from another composable
+    LaunchedEffect(key1 = true) {//Compose framework has control on this
+        //@Composable invocations can only happen from the context of a @Composable function
+        //remember {  } //Error
 
-    LaunchedEffect(key1 = Unit) {
-        //Non composable function
-        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+        //Non composable function or suspendable api call can be placed here
+
+        fetchData() //suspend function
+        Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()//Normal function
+
+    }
+
+    DisposableEffect(key1 = true) {
+        //Error: Suspend function 'fetchData' should be called only from a coroutine or another suspend function
+        //fetchData()
+
+        onDispose {//It must be last
+
+        }
     }
 
     var counter by remember { mutableIntStateOf(0) }
@@ -70,3 +74,5 @@ fun LaunchedEffectScreen() {
         Text(text = "$counter", modifier = Modifier.padding(20.dp))
     }
 }
+
+suspend fun fetchData() = "fetch Data"

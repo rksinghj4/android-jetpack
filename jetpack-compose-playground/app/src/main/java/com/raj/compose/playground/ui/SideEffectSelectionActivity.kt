@@ -14,6 +14,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.raj.compose.playground.R
 import com.raj.compose.playground.sideeffects.LaunchedEffectActivity
+import com.raj.compose.playground.sideeffects.RememberCoroutineScopeActivity
 import com.raj.compose.playground.sideeffects.WhatAreSideEffectActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
@@ -24,7 +25,7 @@ class SideEffectSelectionActivity : ComponentActivity() {
         setContent {
             JetpackComposePlaygroundTheme {
                 TopBarScaffold(title = stringResource(R.string.select_side_effect))
-                 {
+                {
                     SideEffectSelectionScreen(clickActions = clickActions(this@SideEffectSelectionActivity))
                 }
             }
@@ -38,6 +39,9 @@ class SideEffectSelectionActivity : ComponentActivity() {
         },
         onLaunchedEffect = {
             LaunchedEffectActivity.show(fromActivity)
+        },
+        onRememberCoroutineScope = {
+            RememberCoroutineScopeActivity.show(fromActivity)
         }
     )
 
