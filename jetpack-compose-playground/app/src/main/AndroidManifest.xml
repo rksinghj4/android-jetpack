@@ -13,6 +13,9 @@
         android:theme="@style/Theme.JetpackComposePlayground"
         tools:targetApi="31">
         <activity
+            android:name=".sideeffects.RememberUpdatedStateActivity"
+            android:exported="false" />
+        <activity
             android:name=".sideeffects.SideEffectActivity"
             android:exported="false" />
         <activity

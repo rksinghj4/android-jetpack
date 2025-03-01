@@ -39,6 +39,16 @@ class SideEffectSelectionActivity : ComponentActivity() {
         },
         onSideEffect = {
             SideEffectActivity.show(fromActivity)
+        },
+
+        onRememberUpdateState = {
+            RememberUpdatedStateActivity.show(fromActivity)
+        },
+        onDerivedState = {
+
+        },
+        onProduceState = {
+
         }
     )
 

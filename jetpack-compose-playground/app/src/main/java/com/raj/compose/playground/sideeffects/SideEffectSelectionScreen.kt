@@ -49,13 +49,13 @@ fun SideEffectSelectionScreen(clickActions: SideEffectClickActions) {
     }
 
     Spacer(modifier = Modifier.height(16.dp))
-    Button(onClick = clickActions.onDerivedState) {
-        Text(text = stringResource(R.string.derived_state))
+    Button(onClick = clickActions.onRememberUpdateState) {
+        Text(text = stringResource(R.string.remember_updated_state))
     }
 
     Spacer(modifier = Modifier.height(16.dp))
-    Button(onClick = clickActions.onRememberUpdateState) {
-        Text(text = stringResource(R.string.remember_updated_state))
+    Button(onClick = clickActions.onDerivedState) {
+        Text(text = stringResource(R.string.derived_state))
     }
 
     Spacer(modifier = Modifier.height(16.dp))

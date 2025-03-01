@@ -6,16 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
@@ -26,8 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.raj.compose.playground.R
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
@@ -69,6 +63,9 @@ fun SideEffectDemo() {
         }
         Text(text = "$counter", modifier = Modifier.padding(20.dp))
     }
+    //Layout Inspector uses SideEffect to calculate number of (re)composition
+    //Many library uses SideEffect to calculate number of (re)composition
+    //SideEffect are generally used for debugging purpose.
     //DisposableEffect cah have 0 to 3 key or vararg keys
     SideEffect {//Note: SideEffect has 0 key only version, no other version,
         /**
