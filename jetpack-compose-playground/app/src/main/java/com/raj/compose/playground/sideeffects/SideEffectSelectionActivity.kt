@@ -1,21 +1,12 @@
-package com.raj.compose.playground.ui
+package com.raj.compose.playground.sideeffects
 
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.raj.compose.playground.R
-import com.raj.compose.playground.sideeffects.LaunchedEffectActivity
-import com.raj.compose.playground.sideeffects.RememberCoroutineScopeActivity
-import com.raj.compose.playground.sideeffects.WhatAreSideEffectActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 
@@ -42,6 +33,9 @@ class SideEffectSelectionActivity : ComponentActivity() {
         },
         onRememberCoroutineScope = {
             RememberCoroutineScopeActivity.show(fromActivity)
+        },
+        onDisposableEffect = {
+            DisposableEffectActivity.show(fromActivity)
         }
     )
 

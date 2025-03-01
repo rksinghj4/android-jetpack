@@ -13,6 +13,9 @@
         android:theme="@style/Theme.JetpackComposePlayground"
         tools:targetApi="31">
         <activity
+            android:name=".sideeffects.DisposableEffectActivity"
+            android:exported="false" />
+        <activity
             android:name=".sideeffects.RememberCoroutineScopeActivity"
             android:exported="false" />
         <activity
@@ -22,7 +25,7 @@
             android:name=".sideeffects.WhatAreSideEffectActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SideEffectSelectionActivity"
+            android:name=".sideeffects.SideEffectSelectionActivity"
             android:exported="false" />
         <activity
             android:name=".others.DeclarativeActivity"

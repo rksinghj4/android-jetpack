@@ -18,7 +18,7 @@ import com.raj.compose.playground.compositionlocal.StructuralEqualityPolicyTest
 import com.raj.compose.playground.intro.BasicComposeExampleActivity
 import com.raj.compose.playground.intro.RecompositionActivity
 import com.raj.compose.playground.intro.StateExampleActivity
-import com.raj.compose.playground.ui.SideEffectSelectionActivity
+import com.raj.compose.playground.sideeffects.SideEffectSelectionActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 import kotlinx.coroutines.flow.MutableStateFlow
