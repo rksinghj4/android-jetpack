@@ -67,6 +67,7 @@ fun TextFieldDemo() {
 
 /**
  * We can use DisposableEffect to register location listener / Activity lifecycle listener
+ * or network request listener
  */
 @Composable
 fun DisposableEffectDemo() {
@@ -76,6 +77,9 @@ fun DisposableEffectDemo() {
      * Due to the hardcoded key - enter inside only once when composition happens
      * During recomposition we don't enter inside.
      */
+    //DisposableEffect have with key and without key versions.
+    //LaunchedEffect cah have 0 to 3 key or vararg keys
+    //DisposableEffect cah have 0 to 3 key or vararg keys
     DisposableEffect(key1 = Unit) {//We are now in DisposableEffectScope
         val listener = ViewTreeObserver.OnGlobalLayoutListener {
             //Whenever keyboard is coming up/down the execution control comes here.

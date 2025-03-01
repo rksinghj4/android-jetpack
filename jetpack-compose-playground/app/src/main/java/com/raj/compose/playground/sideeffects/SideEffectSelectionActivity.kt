@@ -36,6 +36,9 @@ class SideEffectSelectionActivity : ComponentActivity() {
         },
         onDisposableEffect = {
             DisposableEffectActivity.show(fromActivity)
+        },
+        onSideEffect = {
+            SideEffectActivity.show(fromActivity)
         }
     )
 
