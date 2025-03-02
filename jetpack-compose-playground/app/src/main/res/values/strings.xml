@@ -2,6 +2,7 @@
     <string name="app_name">JetpackComposePlayground</string>
     <string name="basic_example">Basic Example</string>
     <string name="state_example">State Example</string>
+    <string name="enter_email">Enter email</string>
     <string name="enter_firstname">Enter first name</string>
     <string name="enter_lastname">Enter last name</string>
     <string name="enter_username">Enter username</string>
