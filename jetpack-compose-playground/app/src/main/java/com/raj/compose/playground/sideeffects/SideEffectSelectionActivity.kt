@@ -48,7 +48,7 @@ class SideEffectSelectionActivity : ComponentActivity() {
             DerivedStateActivity.show(fromActivity)
         },
         onProduceState = {
-
+            ProducedStateActivity.show(fromActivity)
         }
     )
 
