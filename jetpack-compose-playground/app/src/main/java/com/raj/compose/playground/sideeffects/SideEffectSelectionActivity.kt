@@ -49,6 +49,9 @@ class SideEffectSelectionActivity : ComponentActivity() {
         },
         onProduceState = {
             ProducedStateActivity.show(fromActivity)
+        },
+        onSnapShotFlow = {
+            SnapshotFlowActivity.show(fromActivity)
         }
     )
 

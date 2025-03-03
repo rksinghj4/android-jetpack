@@ -10,10 +10,13 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -77,11 +80,12 @@ fun DerivedStateScrollExamplePreview() {
 fun DerivedStateScrollExample() {
 
     val listState = rememberLazyListState()
-
+    //listState.scrollToItem(index = 14, scrollOffset = 0)
     /**
      * listState.firstVisibleItemIndex and listState.firstVisibleItemScrollOffset both are observable
      * Note that these properties are observable and if you use them in the composable function
-     * they will be recomposed on every scroll causing potential performance issues.
+     * they will force the recomposition of user composable on every scroll
+     * which causes potential performance issues.
      *
      * even when isEnabled is false -> false -> false then also it cause recomposition.
      * Reason: LazyListState doesn't implement distinctUntilChanged
@@ -109,7 +113,7 @@ fun DerivedStateScrollExample() {
              * or true -> true -> true
              *
              * isEnabled will triggered recomposition only when true -> false or false -> true
-             * It's a drastic improvement.
+             * It's a drastic improvement in reducing compositions.
              */
             listState.firstVisibleItemIndex > 19
         }
@@ -118,15 +122,27 @@ fun DerivedStateScrollExample() {
         Column(
             modifier = Modifier.fillMaxHeight(.85f),
         ) {
-            LazyColumn(state = listState) {
-                items((1..100).toList()) {
-                    Text(
-                        "Item $it",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(8.dp)
-                    )
+            Row {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(.3f),
+                    state = listState
+                ) {
+                    items((1..100).toList()) {
+                        Text(
+                            "Item $it",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(8.dp)
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.fillMaxWidth(.1f))
+
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "derivedStateOf{} - uses distinctUntilChanged and reduce number of recompositions drastically"
+                )
             }
         }
 

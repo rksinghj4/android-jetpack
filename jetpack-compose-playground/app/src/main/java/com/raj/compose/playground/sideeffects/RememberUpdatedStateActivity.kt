@@ -60,13 +60,14 @@ class RememberUpdatedStateActivity : ComponentActivity() {
 fun RememberUpdatedStateDemo(message: String) {
 
     val context = LocalContext.current
-
+    //In pending execution of initial  composition inside LaunchedEffect(Unit){}- On next access
+    // of updatedState variable use the updated state of message.
     val updatedState by rememberUpdatedState(message)
 
     /**
-     * In recomposition remember will help to preserve the updated value
+     * In recomposition below remember will help to preserve the updated value
      * but not inside LaunchedEffect(Unit) - because code inside is executed only on initial composition
-     * if we want to have the latest update value inside LaunchedEffect(Unit) {} then use rememberUpdatedState
+     * if we want to have the latest update value inside LaunchedEffect(Unit){} then use rememberUpdatedState
      */
     //val updatedState by remember { mutableStateOf(message) }
 

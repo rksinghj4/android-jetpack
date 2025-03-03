@@ -7,6 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -47,7 +48,10 @@ class ProducedStateActivity : ComponentActivity() {
 fun ProduceStateExample(url: String) {
 
     val networkResultState: State<NetworkResult> = loadDataFromNetwork(url)
-
+    Text(
+        modifier = Modifier.fillMaxWidth(),
+        text = "produceState(initialValue, keys) {}  is used to convert non-compose state to compose state"
+    )
     when (networkResultState.value) {
         is NetworkResult.Success -> {
             ShowText((networkResultState.value as NetworkResult.Success).data)
