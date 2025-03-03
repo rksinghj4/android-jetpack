@@ -1,51 +1,93 @@
-package com.example.navigationwithcompose
+package com.raj.compose.navigation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.navigationwithcompose.ui.theme.NavigationWithComposeTheme
+import androidx.navigation.toRoute
+import com.raj.compose.navigation.ui.theme.NavigationWithCompose2025Theme
+import kotlinx.serialization.Serializable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         setContent {
-            NavigationWithComposeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        App()
-                    }
+            NavigationWithCompose2025Theme {
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    NewApp()
                 }
             }
         }
     }
 }
 
+/**
+ * Compose frame work still use strings after applying serialization on routes
+ * For that we added followings
+ * kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerialization" }
+ * kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ *  alias(libs.plugins.kotlin.serialization)
+ *
+ */
+@Serializable
+object Registration
+
+@Serializable
+object Login
+
+@Serializable
+data class Main(val id: Int) {
+    lateinit var email: String
+    lateinit var password: String
+}
+
+
 @Composable
-fun App() {
+fun NewApp() {
+    val navController = rememberNavController()// 1. NavController
+    NavHost(navController = navController, startDestination = Registration) {
+        composable<Registration> {
+            //Draw this screen when coming to registration node
+            RegistrationScreen {
+                navController.navigate(Login)//Registration -> Login
+            }
+        }
+
+        composable<Login> { navBackStackEntry ->
+            LoginScreen { email, pass ->
+                val main = Main(
+                    id = 1234
+                )
+                main.email = email
+                main.password = pass
+                navController.navigate(main) //navigate Login to Main
+            }
+        }
+
+        composable<Main> { navBackStackEntry ->
+            val mainObj: Main = navBackStackEntry.toRoute<Main>()//Deserialize the passed data
+            MainScreen(mainObj.id.toString() + mainObj.email)
+        }
+    }
+}
+
+//Old way of navigation compose, we had to pass serialized routes
+@Composable
+fun OldApp() {
     val navController = rememberNavController()// 1. NavController
 
     //2. NavHost
@@ -85,6 +127,7 @@ fun App() {
     }
 }
 
+
 @Composable
 fun RegistrationScreen(navigationBlock: () -> Unit) {
     Text(
@@ -95,7 +138,6 @@ fun RegistrationScreen(navigationBlock: () -> Unit) {
         }
     )
 }
-
 
 @Composable
 fun LoginScreen(onClick: (email: String, password: String) -> Unit) {
@@ -119,7 +161,6 @@ fun MainScreen(email: String) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    NavigationWithComposeTheme {
-        MainScreen("raj@care.com")
+    NavigationWithCompose2025Theme {
     }
 }
