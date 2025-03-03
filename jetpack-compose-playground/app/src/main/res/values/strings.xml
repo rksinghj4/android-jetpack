@@ -24,4 +24,7 @@
     <string name="click_here">Click here</string>
     <string name="submit">Submit</string>
     <string name="show_snackbar">Show Snackbar</string>
+    <string name="state_hoisted_in_parent">Counter is pulled to parent of both event performer and state observer</string>
+    <string name="stateful_event_performer">Counter is not pulled to parent of both event performer and state observer</string>
+
 </resources>

@@ -73,7 +73,7 @@ fun MainScreen(modifier: Modifier, mainScreenClickActions: MainScreenClickAction
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = mainScreenClickActions.onStructuralEquality) {
-            Text(text = "State Hoisting")
+            Text(text = "Structural Equality in Logcat")
         }
         Spacer(modifier = Modifier.height(16.dp))
     }

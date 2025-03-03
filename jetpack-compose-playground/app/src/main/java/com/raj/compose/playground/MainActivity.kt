@@ -19,6 +19,8 @@ import com.raj.compose.playground.intro.BasicComposeExampleActivity
 import com.raj.compose.playground.intro.RecompositionActivity
 import com.raj.compose.playground.intro.StateExampleActivity
 import com.raj.compose.playground.sideeffects.SideEffectSelectionActivity
+import com.raj.compose.playground.statehoisting.NeedOfStateHoistingActivity
+import com.raj.compose.playground.statehoisting.StateHoistingActivity
 import com.raj.compose.playground.ui.common.TopBarScaffold
 import com.raj.compose.playground.ui.theme.JetpackComposePlaygroundTheme
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -68,10 +70,10 @@ class MainActivity : ComponentActivity() {
             SideEffectSelectionActivity.show(fromActivity)
         },
         onNeedOfStateHoisting = {
-
+            NeedOfStateHoistingActivity.show(fromActivity)
         },
         onStateHoistingExample = {
-
+            StateHoistingActivity.show(fromActivity)
         },
         onStructuralEquality = {
             mainViewModel.setStructuralEqualityFlow()
