@@ -30,12 +30,13 @@ class NeedOfStateHoistingActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             JetpackComposePlaygroundTheme {
-                TopBarScaffold(title = stringResource(R.string.need_of_state_hoisting))
-                Text(
-                    textAlign = TextAlign.Center,
-                    text = stringResource(R.string.stateful_event_performer)
-                )
-                NeedOfStateHoistingExample()
+                TopBarScaffold(title = stringResource(R.string.need_of_state_hoisting)) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = stringResource(R.string.stateful_event_performer)
+                    )
+                    NeedOfStateHoistingExample()
+                }
             }
         }
     }
