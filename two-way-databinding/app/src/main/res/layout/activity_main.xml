@@ -53,7 +53,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+        <!--
+        You use $app_debug in data binding expressions primarily to control debug-related functionality
+         or behavior, helping developers inspect and troubleshoot data binding during the app’s development
+         phase. It allows you to conditionally display additional information or activate debug behavior
+         without affecting the release version of your app.
+        -->
         <Button
             android:id="@+id/btnupdate"
             android:layout_width="wrap_content"
