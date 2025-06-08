@@ -13,11 +13,11 @@ import kotlinx.coroutines.launch
 class QuoteWorker(
     private val context: Context,
     params: WorkerParameters
-):
-    Worker(context, params) {
+): Worker(context, params) {
     override fun doWork(): Result {
         Log.d(LOG_TAG, "QuoteWorker: doWork() called")
         val repository = (context as QuoteApplication).quoteRepository
+        //UnStructured coroutine - not tied to any lifecycle
         CoroutineScope(Dispatchers.IO).launch {
             repository.getQuotesBackGround()
         }

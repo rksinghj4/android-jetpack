@@ -14,10 +14,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,6 +36,25 @@ class ParallelNetworkCallsViewModel @Inject constructor(
     private val _errorSharedFlow = MutableSharedFlow<Boolean>()
     internal val errorSharedFlow = _errorSharedFlow.asSharedFlow()
 
+    /**
+     * Best Practice (for parallel network calls):
+     * Use combine() or coroutineScope + async for truly parallel execution.
+     *
+     * Under the hood:
+     * combine() starts two coroutines to collect flow1 and flow2 concurrently.
+     * Because of flowOn(Dispatchers.IO), those two collector coroutines run on the IO dispatcher.
+     * As either flow emits, combine() recombines the latest values and emits downstream.
+     * ------------------------------------------------------------------------------------
+     * How is zip different from combine()?
+     * Ans. If we replace combine with zip in below code then zip is still sequential
+     *
+     * Operator	  Starts 2 coroutines?	 Emits when	 Pair the values                          Parallel network calls?
+     * zip()	      ❌ No	              Both emit	      ✅ Yes (wait for both new)           ❌ No
+     * combine()	✅ Yes	              Any emits	      ✅ Yes (wait for first pair)         ✅ Yes
+     * merge()      ✅ Yes	              Any emits	      ❌ No                               ✅ Yes
+     */
+
+
     private fun fetchUsers() {
         viewModelScope.launch(Dispatchers.Main) {
             //Main thread
@@ -43,7 +62,7 @@ class ParallelNetworkCallsViewModel @Inject constructor(
                 //Handle gracefully if getUsersWithError() fails
                 Log.d("$TAG 2", it.toString())
                 emitAll(flowOf(emptyList()))
-            }.zip(userRepository.getUsers().catch {
+            }.combine(userRepository.getUsers().catch {
                 //Handle gracefully if getUsers() fails
                 Log.d("$TAG 2", it.toString())
                 emitAll(flowOf(emptyList()))
@@ -52,7 +71,7 @@ class ParallelNetworkCallsViewModel @Inject constructor(
                 val allUsers = mutableListOf<User>()
                 allUsers.addAll(users)
                 allUsers.addAll(moreUsers)
-                return@zip allUsers
+                return@combine allUsers
             }
                 .flowOn(dispatcher)
                 .catch {

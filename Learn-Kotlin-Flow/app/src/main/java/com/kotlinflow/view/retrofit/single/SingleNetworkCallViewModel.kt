@@ -26,10 +26,11 @@ class SingleNetworkCallViewModel @Inject constructor(
         fetchUsers()
     }
 
+    //Want to remember any previous value
     private val _uiStateFlow =
         MutableStateFlow<UiState<List<User>>>(UiState.Loading)
     val uiStateFlow = _uiStateFlow.asStateFlow()
-
+    //don't want to remember any previous value
     private val _errorSharedFlow = MutableSharedFlow<Boolean>()
     val errorSharedFlow = _errorSharedFlow.asSharedFlow()
 

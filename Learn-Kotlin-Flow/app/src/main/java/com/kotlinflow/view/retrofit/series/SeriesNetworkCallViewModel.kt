@@ -21,6 +21,29 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Sample Code for Sequential Network Calls
+ *
+ * val sequentialFlow = flow {
+ *     val userProfile = apiService.fetchUserProfile() // 🚀 First API call
+ *     emit(userProfile)
+ *
+ *     val userPosts = apiService.fetchUserPosts(userProfile.id) // ✅ Second API after first completes
+ *     emit(userPosts)
+ * }.flowOn(Dispatchers.IO) // Run on IO thread
+ *
+ * Collect the Flow
+ * sequentialFlow.collect { result ->
+ *     when (result) {
+ *         is UserProfile -> println("Got user: ${result.name}")
+ *         is List<*> -> println("Got posts: ${result.size}")
+ *     }
+ * }
+ *
+ * Don't use zip() or combine() for Sequential Network Calls.
+ * They are used for independent flows. Here, we have dependency between calls.
+ */
+
 @HiltViewModel
 class SeriesNetworkCallViewModel @Inject constructor(
     private val userRepository: UserRepository,

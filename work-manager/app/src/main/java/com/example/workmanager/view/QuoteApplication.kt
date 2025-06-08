@@ -23,14 +23,15 @@ class QuoteApplication: Application() {
     }
 
     private fun setUpWorker() {
+        //1. Prepare the constraints
         val constraint = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-
+        //2. Prepare the workerRequest OneTimeWorkRequest or PeriodicWorkRequest
         val workerRequest = PeriodicWorkRequest.Builder(
             QuoteWorker::class.java,
             15,
             TimeUnit.MINUTES
         ).setConstraints(constraint).build()
-
+        //3. enqueue the work request in WorkManager
         WorkManager.getInstance(this).enqueue(workerRequest)
     }
 
