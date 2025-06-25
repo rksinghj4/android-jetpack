@@ -15,6 +15,7 @@ class QuoteWorker(
     params: WorkerParameters
 ): Worker(context, params) {
     override fun doWork(): Result {
+        //Performs work synchronously on a background thread provided by WorkManager
         Log.d(LOG_TAG, "QuoteWorker: doWork() called")
         val repository = (context as QuoteApplication).quoteRepository
         //UnStructured coroutine - not tied to any lifecycle

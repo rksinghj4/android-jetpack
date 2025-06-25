@@ -12,6 +12,12 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Two perform the tasks in series we can use
+ * 1. map -> if 2nd task is not a long running operation
+ * 2. flatMapConcat -> if 2nd task is long running operation
+ */
+
 class UserRepositoryWithRoomAndWebImpl @Inject constructor(
     private val roomService: RoomDatabaseService,
     private val webService: WebService,
@@ -23,9 +29,10 @@ class UserRepositoryWithRoomAndWebImpl @Inject constructor(
         return roomService.getUsers().flatMapConcat { userListFromDB ->
             if (userListFromDB.isEmpty()) {
                 return@flatMapConcat flow {
-                    emit(webService.getUsers())
+                    emit(webService.getUsers())//Long running operation
                 }.map { usersFromWeb ->
                     val userList = mutableListOf<UserDb>()
+                    //Short running operation
                     usersFromWeb.forEach {
                         userList.add(
                             UserDb(
@@ -38,6 +45,7 @@ class UserRepositoryWithRoomAndWebImpl @Inject constructor(
                     }
                     userList
                 }.flatMapConcat { usersReadyForDBInsertaion ->
+                    //Long running operation
                     roomService.insertAll(usersReadyForDBInsertaion).flatMapConcat {
                         flow { emit(usersReadyForDBInsertaion) }
                     }

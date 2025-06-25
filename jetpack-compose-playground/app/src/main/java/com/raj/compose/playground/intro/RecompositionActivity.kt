@@ -46,7 +46,7 @@ class RecompositionActivity : ComponentActivity() {
     /**
      * In older days state container function was considered user/reader of that state.
      * For any updates(must be distinct from just previous one) in the state causes
-     * recomposition of all the readers/users composition including container of that state
+     * recomposition of all the readers/users including container of that state
      *
      * But in latest compose versions container function is not considered the user/reader of the
      * compose state so not recomposed on change.

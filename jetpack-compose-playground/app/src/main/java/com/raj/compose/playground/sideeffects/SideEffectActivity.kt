@@ -79,7 +79,6 @@ fun SideEffectDemo() {
         compositionCounter.count++
         Log.d("SideEffectExample", "SideEffect block compositionCounter : $compositionCounter")
     }
-
     Log.d("SideEffectExample", "Recomposition")
 }
 

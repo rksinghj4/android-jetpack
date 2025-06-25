@@ -86,7 +86,7 @@ fun RememberCoroutineScopeExample() {
             Button(onClick = {//Normal function
                 //Perform the click and leave the screen. Snack bar should go away immediately.
                 //Perform the multiple click and you will see the queued events.
-                scope.launch {//rememberCoroutineScope Best part - It owners the lifecycle of composition
+                scope.launch {//rememberCoroutineScope Best part - It owns the lifecycle of composition
                     //showSnackbar is suspend function - can be called from another suspend or coroutine
                     snackbarHostState.showSnackbar(snackBarText)//Actionable icon
                 }
@@ -95,7 +95,7 @@ fun RememberCoroutineScopeExample() {
                  * rememberCoroutineScope and LaunchedEffect both are composable
                  * so can't be called here directly.
                  */
-                //GlobalScope.launch {} - Will not owner the lifecycle. So never use inside onClick
+                //GlobalScope.launch {} - Will not own the lifecycle. So never use inside onClick
             }) {
                 Text(text = stringResource(R.string.show_snackbar))
             }

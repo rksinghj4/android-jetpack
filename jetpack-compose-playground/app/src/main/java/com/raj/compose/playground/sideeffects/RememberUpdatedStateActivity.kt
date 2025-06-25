@@ -38,8 +38,8 @@ class RememberUpdatedStateActivity : ComponentActivity() {
                 TopBarScaffold(title = stringResource(R.string.remember_updated_state)) {
                     var greetingMessage by remember { mutableStateOf("Greeting from client") }
                     LaunchedEffect(Unit) {
-                        greetingMessage = fetchEarlyGreetings()
-                        //greetingMessage = fetchDelayedGreetingsWithMoreTime()
+                        //greetingMessage = fetchEarlyGreetings()
+                        greetingMessage = fetchDelayedGreetingsWithMoreTime()
                     }
                     RememberUpdatedStateDemo(message = greetingMessage)
                 }

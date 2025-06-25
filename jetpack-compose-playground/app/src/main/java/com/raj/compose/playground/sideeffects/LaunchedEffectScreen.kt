@@ -41,8 +41,8 @@ fun LaunchedEffectScreen() {
      *So to handle side effect we need to use
      */
     //Composable can be called from another composable
-    //DisposableEffect cah have 0 to 3 key or vararg keys
-    //LaunchedEffect cah have 0 to 3 key or vararg keys
+    //DisposableEffect can have 0 to 3 key or vararg keys
+    //LaunchedEffect can have 0 to 3 key or vararg keys
     LaunchedEffect(key1 = true) {//Compose framework has control on this
         //@Composable invocations can only happen from the context of a @Composable function
         //remember {  } //Error

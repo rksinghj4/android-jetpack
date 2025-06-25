@@ -98,6 +98,7 @@ fun DisposableEffectDemo() {
         //Provide onDisposeEffect to the DisposableEffect to run when it leaves the composition or its key changes.
         onDispose {
             //UnRegistered the listener, when going out of the activity (composition is removed from the view).
+            Log.d(TAG, "onDispose called")// keyboard up - ture, Keyboard down - false
             view.viewTreeObserver.removeOnGlobalLayoutListener(listener)
         }
     }
