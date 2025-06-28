@@ -12,7 +12,7 @@ class RickAndMortyPagingSource @Inject constructor(private val webservice: Webse
         return state.anchorPosition?.let { anchorPosition ->
             val anchorPage = state.closestPageToPosition(anchorPosition)
             anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-        } ?: STARTING_PAGE_INDEX
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, RickAndMortyResponse.Result> {
@@ -23,7 +23,7 @@ class RickAndMortyPagingSource @Inject constructor(private val webservice: Webse
             LoadResult.Page(
                 data = response.results,
                 prevKey = if (currentPage == STARTING_PAGE_INDEX) null else currentPage - 1,
-                nextKey = if (response.results.isEmpty() || currentPage == response.info.pages) null else currentPage + 1
+                nextKey = if (currentPage == response.info.pages) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

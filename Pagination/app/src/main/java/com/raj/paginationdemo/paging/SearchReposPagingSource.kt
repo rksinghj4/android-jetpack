@@ -11,7 +11,7 @@ class SearchReposPagingSource @Inject constructor(
     private val webservice: Webservice
 ) :
     PagingSource<Int, SearchReposResponse.Repo>() {
-    private var itemsPerPage: Int = 10
+    private var itemsPerPage: Int = 20
 
     override fun getRefreshKey(state: PagingState<Int, SearchReposResponse.Repo>): Int? {
         itemsPerPage = state.config.pageSize
@@ -28,9 +28,9 @@ class SearchReposPagingSource @Inject constructor(
             val response = webservice.searchRepos(query, currentPage, itemsPerPage)
 
             LoadResult.Page(
-                data = response.repos ?: emptyList(),
+                data = response.repos,
                 prevKey = if (currentPage == STARTING_PAGE_INDEX) null else currentPage - 1,
-                nextKey = if (response.repos == null) null else currentPage + 1
+                nextKey = if (currentPage*itemsPerPage >= response.totalCount) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

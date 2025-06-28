@@ -13,7 +13,7 @@ class SearchReposRepositoryImpl @Inject constructor(private val webservice: Webs
     SearchReposRepository {
     override fun searchRepos(query: String): Flow<PagingData<SearchReposResponse.Repo>> {
         return Pager(
-            config = PagingConfig(pageSize = 10, maxSize = 50),
+            config = PagingConfig(pageSize = 20, maxSize = 60),
             pagingSourceFactory = {
                 SearchReposPagingSource(query, webservice)
             }

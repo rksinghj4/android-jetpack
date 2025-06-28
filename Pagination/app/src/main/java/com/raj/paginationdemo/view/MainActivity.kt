@@ -54,16 +54,15 @@ class MainActivity : ComponentActivity() {
             PaginationDemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     //SearchRepoMainScreen - Working
-                    /*
                     val pagingItems: LazyPagingItems<SearchReposResponse.Repo> =
                         viewModel.searchRepoFlow.collectAsLazyPagingItems()
-                    SearchRepoMainScreen(pagingItems, Modifier.padding(innerPadding))*/
+                    SearchRepoMainScreen(pagingItems, Modifier.padding(innerPadding))
 
                     //RickAndMortyMainScreen - Working
-                    val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
+                    /*val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
                         rickyAndMortyViewModel.rickAndMortyFlow.collectAsLazyPagingItems()
                     RickAndMortyMainScreen(pagingItems, Modifier.padding(innerPadding))
-
+*/
                     /*val pagingItems: LazyPagingItems<QuotesResponse.Result> =
                         quotesViewModel.quotesFlow.collectAsLazyPagingItems()
                     Log.d("quotesFlow", pagingItems.itemSnapshotList.toString())

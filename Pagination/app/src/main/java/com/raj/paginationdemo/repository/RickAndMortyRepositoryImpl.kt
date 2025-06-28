@@ -32,7 +32,7 @@ class RickAndMortyRepositoryImpl @Inject constructor(private val webservice: Web
     RickAndMortyRepository {
     override fun fetchRickAndMorty(): Flow<PagingData<RickAndMortyResponse.Result>> {
         return Pager(
-            config = PagingConfig(pageSize = 10, maxSize = 50),
+            config = PagingConfig(pageSize = 20, maxSize = 60),
             pagingSourceFactory = {
                 RickAndMortyPagingSource(webservice)
             }
