@@ -6,6 +6,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import io.nerdythings.okhttp.profiler.OkHttpProfilerInterceptor
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,13 +23,33 @@ class NetworkModule {
     fun providesGsonConvertorFactory(): GsonConverterFactory = GsonConverterFactory.create()
 
     @Provides
+    fun providesOkHttpBuilder(): OkHttpClient.Builder {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BASIC
+        val builder = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(OkHttpProfilerInterceptor())
+            //Use either one OkHttpProfilerInterceptor or HttpLoggingInterceptor
+            //builder.addInterceptor(logger)
+        }
+        return builder
+    }
+
+    @Provides
+    fun providesOkHttpClient(builder: OkHttpClient.Builder): OkHttpClient {
+        return builder.build()
+    }
+
+    @Provides
     fun providesWebService(
         baseUrl: String,
+        client: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
     ): Webservice {
 
         return Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(client)
             .addConverterFactory(gsonConverterFactory)
             .build().create(Webservice::class.java)
     }

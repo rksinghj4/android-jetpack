@@ -33,9 +33,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.raj.paginationdemo.model.QuotesResponse
 import com.raj.paginationdemo.model.RickAndMortyResponse
+import com.raj.paginationdemo.model.SearchReposResponse
 import com.raj.paginationdemo.ui.theme.PaginationDemoTheme
 import com.raj.paginationdemo.viewmodel.QuotesViewModel
 import com.raj.paginationdemo.viewmodel.RickAndMortyViewModel
+import com.raj.paginationdemo.viewmodel.SearchRepoViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -44,17 +46,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            val viewModel by viewModels<RickAndMortyViewModel>()
+            val viewModel by viewModels<SearchRepoViewModel>()
 
             PaginationDemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
-                    val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
+                    val pagingItems: LazyPagingItems<SearchReposResponse.Repo> =
+                        viewModel.searchRepoFlow.collectAsLazyPagingItems()
+                    SearchRepoMainScreen(pagingItems, Modifier.padding(innerPadding))
+                    /*val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
                         viewModel.rickAndMortyFlow.collectAsLazyPagingItems()
-                    RickAndMortyMainScreen(pagingItems, Modifier.padding(innerPadding))
+                    RickAndMortyMainScreen(pagingItems, Modifier.padding(innerPadding))*/
+
                     /*val pagingItems: LazyPagingItems<QuotesResponse.Result> =
                         viewModel.quotesFlow.collectAsLazyPagingItems()
-                    Log.d("quotesFlow", pagingItems.itemSnapshotList.items.toString())
+                    Log.d("quotesFlow", pagingItems.itemSnapshotList.repos.toString())
                     MainScreen(
                         quotesPagingItems = pagingItems,
                         modifier = Modifier.padding(innerPadding)

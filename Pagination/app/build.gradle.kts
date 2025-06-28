@@ -85,6 +85,12 @@ dependencies {
     implementation(libs.paging.runtime)
     implementation(libs.paging.compose)
 
+    //implementation(libs.okhttp3) //No need to add it.
+    // Optional: For logging HTTP requests and responses
+    implementation(libs.okhttp3.logging.interceptor)
+    debugImplementation("io.nerdythings:okhttp-profiler:1.1.1")
+
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
