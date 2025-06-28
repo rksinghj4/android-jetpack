@@ -47,19 +47,26 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val viewModel by viewModels<SearchRepoViewModel>()
+            val quotesViewModel by viewModels<QuotesViewModel>()
+            val rickyAndMortyViewModel by viewModels<RickAndMortyViewModel>()
+
 
             PaginationDemoTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    //SearchRepoMainScreen - Working
+                    /*
                     val pagingItems: LazyPagingItems<SearchReposResponse.Repo> =
                         viewModel.searchRepoFlow.collectAsLazyPagingItems()
-                    SearchRepoMainScreen(pagingItems, Modifier.padding(innerPadding))
-                    /*val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
-                        viewModel.rickAndMortyFlow.collectAsLazyPagingItems()
-                    RickAndMortyMainScreen(pagingItems, Modifier.padding(innerPadding))*/
+                    SearchRepoMainScreen(pagingItems, Modifier.padding(innerPadding))*/
+
+                    //RickAndMortyMainScreen - Working
+                    val pagingItems: LazyPagingItems<RickAndMortyResponse.Result> =
+                        rickyAndMortyViewModel.rickAndMortyFlow.collectAsLazyPagingItems()
+                    RickAndMortyMainScreen(pagingItems, Modifier.padding(innerPadding))
 
                     /*val pagingItems: LazyPagingItems<QuotesResponse.Result> =
-                        viewModel.quotesFlow.collectAsLazyPagingItems()
-                    Log.d("quotesFlow", pagingItems.itemSnapshotList.repos.toString())
+                        quotesViewModel.quotesFlow.collectAsLazyPagingItems()
+                    Log.d("quotesFlow", pagingItems.itemSnapshotList.toString())
                     MainScreen(
                         quotesPagingItems = pagingItems,
                         modifier = Modifier.padding(innerPadding)
