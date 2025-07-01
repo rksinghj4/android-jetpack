@@ -88,8 +88,12 @@ dependencies {
     //implementation(libs.okhttp3) //No need to add it.
     // Optional: For logging HTTP requests and responses
     implementation(libs.okhttp3.logging.interceptor)
-    debugImplementation("io.nerdythings:okhttp-profiler:1.1.1")
+    // Kotlinx Serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    // Retrofit converter
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0")
 
+    debugImplementation("io.nerdythings:okhttp-profiler:1.1.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

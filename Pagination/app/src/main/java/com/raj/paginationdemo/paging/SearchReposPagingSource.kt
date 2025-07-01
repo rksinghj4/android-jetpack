@@ -28,9 +28,9 @@ class SearchReposPagingSource @Inject constructor(
             val response = webservice.searchRepos(query, currentPage, itemsPerPage)
 
             LoadResult.Page(
-                data = response.repos,
+                data = response.items,
                 prevKey = if (currentPage == STARTING_PAGE_INDEX) null else currentPage - 1,
-                nextKey = if (currentPage*itemsPerPage >= response.totalCount) null else currentPage + 1
+                nextKey = if (currentPage*itemsPerPage >= response.total_count) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

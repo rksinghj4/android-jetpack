@@ -2,7 +2,9 @@ package com.raj.paginationdemo.model
 
 
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+/*
 data class SearchReposResponse(
     @field:SerializedName("incomplete_results")
     val incompleteResults: Boolean,
@@ -22,4 +24,23 @@ data class SearchReposResponse(
         @field:SerializedName("language") val language: String?
     )
 
+}*/
+
+@Serializable
+data class SearchReposResponse(
+    val incomplete_results: Boolean,
+    val items: List<Repo>,
+    val total_count: Int
+) {
+    @Serializable
+    data class Repo(
+        val id: Long,
+        val name: String,
+        val full_name: String,
+        val description: String?,
+        val html_url: String,
+        val stargazers_count: Int,
+        val forks_count: Int,
+        val language: String?
+    )
 }
