@@ -11,7 +11,6 @@ import javax.inject.Inject
  * is must to get UserRepositoryImpl object wherever UserRepository is expected
  */
 //
-//
 class UserRepositoryImpl @Inject constructor(
     private val webService: WebService
 ) : UserRepository {

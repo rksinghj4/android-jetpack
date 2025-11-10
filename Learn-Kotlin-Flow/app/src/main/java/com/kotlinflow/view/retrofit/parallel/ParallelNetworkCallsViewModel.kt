@@ -9,6 +9,7 @@ import com.kotlinflow.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -16,8 +17,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.merge
+import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -51,7 +55,7 @@ class ParallelNetworkCallsViewModel @Inject constructor(
      * Operator	  Starts 2 coroutines?	 Emits when	 Pair the values                          Parallel network calls?
      * zip()	      ❌ No	              Both emit	      ✅ Yes (wait for both new)           ❌ No
      * combine()	✅ Yes	              Any emits	      ✅ Yes (wait for first pair)         ✅ Yes
-     * merge()      ✅ Yes	              Any emits	      ❌ No                               ✅ Yes
+     * merge()      ✅ Yes	              Any emits	      ❌ No                                ✅ Yes
      */
 
 
@@ -73,7 +77,24 @@ class ParallelNetworkCallsViewModel @Inject constructor(
                 allUsers.addAll(moreUsers)
                 return@combine allUsers
             }
-                .flowOn(dispatcher)
+                .flowOn(dispatcher + SupervisorJob()) //Each upstream flow runs on IO dispatcher
+                //So both network calls are in parallel now
+                //If any of the api fails we are emitting empty list for that api using catch above
+                //So that combine can wait for both apis to finish and pair them up
+                //If we don't want to wait for slower api then we can use merge instead of combine
+                //But then we need to handle pairing them up on our own
+                //If both apis fail then we will come to collect with empty list
+                //If one api fails then we will come to collect with partial data
+                //If both apis succeed then we will come to collect with full data
+                //Note: We can't use zip here because zip is sequential. It waits for both to emit new data to pair them up
+                //So if one api is faster than other then it will wait for slower one to emit new data to pair them up
+                //So effectively it becomes sequential
+                //So zip is not suitable for parallel network calls
+                //We can use zip if we have two dependent network calls where second call depends on first
+                //But even for dependent network calls we can use coroutineScope + async for better performance
+                //So zip is rarely used in real world scenarios
+                //Note: If both apis fail then also we will come to collect with empty list
+                //So we need to handle that case in collect
                 .catch {
                     //Handle here if some exception happens during pairing them up
                     //Main thread
@@ -118,4 +139,6 @@ class ParallelNetworkCallsViewModel @Inject constructor(
     companion object {
         const val TAG = "PARALLEL_NW_CALLS"
     }
+
+
 }

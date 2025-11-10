@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -90,7 +91,8 @@ class SeriesNetworkCallViewModel @Inject constructor(
                         emitAll(flowOf(emptyList()))
                     }
                 }
-                .flowOn(dispatcher)
+                .flowOn(dispatcher + SupervisorJob()) //Making sure if 2nd n/w call fails, 1st n/w call result is not affected
+                //Now downstream is on main because we are collecting in viewModelScope.launch(Dispatchers.Main)
                 .catch {
                     //Catching on main
                     _errorSharedFlow.emit(true)
